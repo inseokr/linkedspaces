@@ -8,7 +8,8 @@ var express = require("express"),
     methodOverride = require("method-override"),
     User        = require("./models/user")
 
- var indexRoutes = require("./routes/index");
+var indexRoutes = require("./routes/index");
+var listingRoutes = require("./routes/listing"); 
 
 var url = process.env.DATABASEURL || "mongodb://localhost/Linkedspaces";
 mongoose.connect(url,  { useNewUrlParser: true });
@@ -46,6 +47,7 @@ app.use(function(req, res, next){
 
 
 app.use("/", indexRoutes);
+app.use("/listing", listingRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
 //app.listen(5000, "10.0.0.194", function(){

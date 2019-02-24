@@ -55,9 +55,13 @@ router.get("/login", function(req, res){
 //handling login logic
 router.post("/login", passport.authenticate("local", 
     {
-        successRedirect: "/",
+        successRedirect: "/homepage",
         failureRedirect: "/"
     }), function(req, res){
+});
+
+router.get("/homepage", function(req,res){
+	res.render("homepage");
 });
 
 module.exports = router;

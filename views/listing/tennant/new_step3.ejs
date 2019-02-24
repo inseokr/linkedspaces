@@ -1,0 +1,181 @@
+<% include ../../partials/header %>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="bootstrap-formhelpers-phone.js"></script>                                                                                              
+<link rel="stylesheet" href="/stylesheets/step_wizard.css">
+
+
+<div class="container" style="text-align: center; margin-bottom: 10px">
+  <h3>Posting Rental Request</h3>  
+</div>
+
+<div class="container">
+  
+<div class="stepwizard offset-md-3">
+    <div class="stepwizard-row setup-panel">
+      <div class="stepwizard-step">
+        <a class="btn btn-outline-secondary btn-circle" href="#step-1" type="button">1</a>
+        <p>Step 1</p>
+      </div>
+      <div class="stepwizard-step">
+        <a disabled="disabled" class="btn btn-outline-secondary btn-circle" href="#step-2" type="button">2</a>
+        <p>Step 2</p>
+      </div>
+      <div class="stepwizard-step">
+        <a disabled="disabled" class="btn btn-primary btn-circle" href="#step-3" type="button">3</a>
+        <p>Step 3</p>
+      </div>
+    </div>
+  </div>
+  
+  <form role="form" action="" method="post">
+    <div class="row setup-content" id="step-2">
+      <div class="col-md-6 offset-md-3">
+        <div class="col-md-12">
+          <div style="text-align:center">
+            <h5>Finalize your rental request</h5>
+          </div>
+          <hr>          
+          <!-- Tell me more about you and this rental request-->
+          <div class="form-group">
+          <label for="description_on_rental">Tell me more about this rental request and yourself</label>
+            <textarea type="text" class="form-control" id="description_on_rental" rows="5" name="rental_desription" placeholder=""> </textarea>
+            <small id="descriptionHelp" class="form-text text-muted">This information will be used to find better rental options.
+          </div>
+          
+          <hr>
+
+          <div class="row form-group">
+
+          <div class="form-group col-md-6">
+            <!-- roommates? -->
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-label" name="group_rental" id="group_rental" onclick="handleClickGroupRental()" value="">  Do you have roommates?
+            </label>
+
+            <div style="display:none" id="roommate_group">
+              <label class="control-label" id="roommate_label">Number of Roommate(s)</label>
+                <select id="roommate_select" onchange="handleClickNumOfRoommate()" style="margin-left: 10px;">
+                  <option name="num_of_roommantes" value="1">1</option>
+                  <option name="num_of_roommantes" value="2">2</option>
+                  <option name="num_of_roommantes" value="3">3</option>
+                  <option name="num_of_roommantes" value="4">4</option>
+                </select>
+
+            </div>
+
+            <div id="roommate_ids" style="display:none">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_1" value="" placeholder="User ID of roommate#1">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_2" value="" placeholder="User ID of roommate#2">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_3" value="" placeholder="User ID of roommate#3">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_4" value="" placeholder="User ID of roommate#4">              
+            </div>
+
+          </div>
+
+          <div class="form-group col-md-6">
+            <!-- roommates? -->
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-label" name="roommate_request" id="roommate_request" onclick="handleClickRoommateRequest()" value="">  Do you want to have roommate(s)?
+            </label>
+
+            <div  id="roommate_request_group" style="display:none">
+              <label class="control-label" id="num_of_roommate_requested">Number of Roommate(s)</label>
+                <select id="roommate_requested_select" style="margin-left: 10px;">
+                  <option name="num_of_requested_roommates" value="1">1</option>
+                  <option name="num_of_requested_roommates" value="2">2</option>
+                  <option name="num_of_requested_roommates" value="3">3</option>
+                  <option name="num_of_requested_roommates" value="4">4</option>
+                </select>
+            </div>
+          </div>
+
+          </div>
+
+          <hr>
+
+          <div class="form-group">
+            
+            <label for="description_on_rental">Contact Information</label>
+            <hr>
+              <div class="flex-container">
+                <div style="width: 30%">
+                  <input type="text" class="form-control" style="width: 90%" placeholder="Enter your phone number">
+                </div>
+                <div style="width: 70%">
+                  <input type="text" class="form-control" style="width: 100%" placeholder="Enter your email">
+                </div>
+              </div>
+            </div>
+
+          <div style="margin-top: 40px">
+            <button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="exit">Prev</button>
+            <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="next">Submit</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<script>
+
+function handleClickRoommateRequest() {
+  var checkBox                = document.getElementById("roommate_request");
+  var roomMateRequestGroup    = document.getElementById("roommate_request_group");
+  var numOfRoommateRequested  = document.getElementById("num_of_roommate_requested");
+  var roommateRequestedSelect = document.getElementById("roommate_requested_select");
+
+  if(checkBox.checked == true){
+    roomMateRequestGroup.style.display    = "block";
+    numOfRoommateRequested.style.display  = "inline";
+    roommateRequestedSelect.style.display = "inline";
+  } else {
+    roomMateRequestGroup.style.display    = "none";
+    numOfRoommateRequested.style.display  = "none";
+    roommateRequestedSelect.style.display = "none";
+  }
+}
+
+function handleClickGroupRental() {
+  var checkBox      = document.getElementById("group_rental");
+  var roomMateGroup = document.getElementById("roommate_group");
+  var roommateIds   = document.getElementById("roommate_ids");
+  var roommateId    = document.getElementById("roommate_1");
+
+  if (checkBox.checked == true){
+    roomMateGroup.style.display = "block";
+    roommateId.style.display    = "block";
+    roommateIds.style.display   = "block";
+  } else {
+    roomMateGroup.style.display = "none";
+    $('.roommate-multiple-entries').css("display", "none");
+  }
+
+}
+
+function handleClickNumOfRoommate() {
+  var roomMateSelect = document.getElementById("roommate_select");
+  var numOfRoommates = roomMateSelect.value;
+
+  // ISEO: is there any way to pass parameter to this function?
+  for (var curRoomMateIndex = 1; curRoomMateIndex < 5; curRoomMateIndex++)
+  {
+    var roomateIndex = "roommate_" + curRoomMateIndex;
+    var userId = document.getElementById(roomateIndex);
+
+    if(curRoomMateIndex<=numOfRoommates)
+    {
+      userId.style.display = "block"; 
+    } else {
+      userId.style.display = "none";       
+    }
+  }
+
+}
+
+</script>
+
+<% include ../../partials/footer %>
