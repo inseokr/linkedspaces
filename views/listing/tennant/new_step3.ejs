@@ -28,7 +28,7 @@
     </div>
   </div>
   
-  <form role="form" action="" method="post">
+  <form role="form" action="/listing/tennant/<%=listing_id%>?_method=PUT" method="post">
     <div class="row setup-content" id="step-2">
       <div class="col-md-6 offset-md-3">
         <div class="col-md-12">
@@ -39,7 +39,7 @@
           <!-- Tell me more about you and this rental request-->
           <div class="form-group">
           <label for="description_on_rental">Tell me more about this rental request and yourself</label>
-            <textarea type="text" class="form-control" id="description_on_rental" rows="5" name="rental_desription" placeholder=""> </textarea>
+            <textarea type="text" class="form-control" id="description_on_rental" rows="5" name="rental_description" placeholder=""> </textarea>
             <small id="descriptionHelp" class="form-text text-muted">This information will be used to find better rental options.
           </div>
           
@@ -50,25 +50,25 @@
           <div class="form-group col-md-6">
             <!-- roommates? -->
             <label class="form-check-label">
-                <input type="checkbox" class="form-check-label" name="group_rental" id="group_rental" onclick="handleClickGroupRental()" value="">  Do you have roommates?
+                <input type="checkbox" class="form-check-label" name="group_rental" id="group_rental" onclick="handleClickGroupRental()">  Do you have roommates?
             </label>
 
             <div style="display:none" id="roommate_group">
               <label class="control-label" id="roommate_label">Number of Roommate(s)</label>
-                <select id="roommate_select" onchange="handleClickNumOfRoommate()" style="margin-left: 10px;">
-                  <option name="num_of_roommantes" value="1">1</option>
-                  <option name="num_of_roommantes" value="2">2</option>
-                  <option name="num_of_roommantes" value="3">3</option>
-                  <option name="num_of_roommantes" value="4">4</option>
+                <select id="roommate_select" name="num_of_roommates" onchange="handleClickNumOfRoommate()" style="margin-left: 10px;">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
 
             </div>
 
             <div id="roommate_ids" style="display:none">
-              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_1" value="" placeholder="User ID of roommate#1">
-              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_2" value="" placeholder="User ID of roommate#2">
-              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_3" value="" placeholder="User ID of roommate#3">
-              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_4" value="" placeholder="User ID of roommate#4">              
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_1" name="roommate_1"  placeholder="User ID of roommate#1">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_2" name="roommate_2"  placeholder="User ID of roommate#2">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_3" name="roommate_3"  placeholder="User ID of roommate#3">
+              <input type="text" class="form-control roommate-multiple-entries" style="display:none" id="roommate_4" name="roommate_4"  placeholder="User ID of roommate#4">              
             </div>
 
           </div>
@@ -76,16 +76,16 @@
           <div class="form-group col-md-6">
             <!-- roommates? -->
             <label class="form-check-label">
-                <input type="checkbox" class="form-check-label" name="roommate_request" id="roommate_request" onclick="handleClickRoommateRequest()" value="">  Do you want to have roommate(s)?
+                <input type="checkbox" class="form-check-label" name="roommate_request" id="roommate_request" onclick="handleClickRoommateRequest()">  Do you want to have roommate(s)?
             </label>
 
             <div  id="roommate_request_group" style="display:none">
               <label class="control-label" id="num_of_roommate_requested">Number of Roommate(s)</label>
-                <select id="roommate_requested_select" style="margin-left: 10px;">
-                  <option name="num_of_requested_roommates" value="1">1</option>
-                  <option name="num_of_requested_roommates" value="2">2</option>
-                  <option name="num_of_requested_roommates" value="3">3</option>
-                  <option name="num_of_requested_roommates" value="4">4</option>
+                <select id="roommate_requested_select" name="num_of_requested_roommates" style="margin-left: 10px;">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
             </div>
           </div>
@@ -100,17 +100,17 @@
             <hr>
               <div class="flex-container">
                 <div style="width: 30%">
-                  <input type="text" class="form-control" style="width: 90%" placeholder="Enter your phone number">
+                  <input type="text" class="form-control" style="width: 90%" name="phone" placeholder="Enter your phone number">
                 </div>
                 <div style="width: 70%">
-                  <input type="text" class="form-control" style="width: 100%" placeholder="Enter your email">
+                  <input type="text" class="form-control" style="width: 100%" name="email" placeholder="Enter your email">
                 </div>
               </div>
             </div>
 
           <div style="margin-top: 40px">
             <button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="exit">Prev</button>
-            <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="next">Submit</button>
+            <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="final">Submit</button>
           </div>
 
         </div>

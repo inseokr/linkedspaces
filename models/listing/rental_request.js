@@ -1,19 +1,22 @@
 var mongoose = require("mongoose");
 
 var RentalRequestSchema = new mongoose.Schema({
-	requester: {
+	  requester: {
       id: {
          type: mongoose.Schema.Types.ObjectId,
          ref: "User"
       },
-      usernam: String
+      username: String
   	},
 
   	// roommates if any
   	roommates: [
-     {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "User"
+      {
+       id: {
+           type: mongoose.Schema.Types.ObjectId,
+           ref: "User"
+       },
+       username: String
       }
     ],
 
@@ -22,29 +25,31 @@ var RentalRequestSchema = new mongoose.Schema({
     // 2. Connected with at least with one landlord
     // 3. In the middle of negotiation
     // 4. Transaction completed 
-    state: Integer,
+    state: Number,
 
   	// list of landlords or middlemen helping this requests
   	request_responses: [
-  	 responder {
-  	 	id: {
-         	type: mongoose.Schema.Types.ObjectId,
-         	ref: "User"
-         },
-         user_name: String,
-         // 1: middlemen, 2: landlord
-         type: Integer,
-         // reference to the rental post
-         post_id: {
-         	type: mongoose.Schema.Types.ObjectId,
-         	ref: "RentalPost"
-         },
-         // TBD...
-         // 1: middlemen
-         // 
-         // 2: landlord
-         state: Integer
-     }
+  	 { 
+        responder: {
+      	 	id: {
+             	type: mongoose.Schema.Types.ObjectId,
+             	ref: "User"
+             },
+          user_name: String,
+          // 1: middlemen, 2: landlord
+          type: Number,
+          // reference to the rental post
+          post_id: {
+          	type: mongoose.Schema.Types.ObjectId,
+          	ref: "RentalPost"
+          },
+          // TBD...
+          // 1: middlemen
+          // 
+          // 2: landlord
+          state: Number
+        }
+      }  
   	],
 
   	// rental location
@@ -53,47 +58,53 @@ var RentalRequestSchema = new mongoose.Schema({
   		city: String,
   		state: String,
   		country: String,
-  		zipcode: Integer
+  		zipcode: Number
   	},
   	// move in date
   	move_in_date: {
   		month: String,
-  		date: Integer,
+  		date: Number,
   		year: String
   	},
   	// rental duration in months
-  	rent_duration: Integer,
+  	rent_duration: Number,
     
     // maximum range from the desired location
-  	maximum_range_in_miles: Integer,
+  	maximum_range_in_miles: Number,
 
     // maximum possible rental per month in dollars.
-  	rental_budget: Integer,
+  	rental_budget: Number,
 
   	rental_preferences: {
-		furnished: Boolean,
-		parking: Boolean,
-		shared_living_room: Boolean,
-		garage: Boolean,
-		laundry: Boolean,
-		internet: Boolean,
-		private_bathroom: Boolean,
-		num_of_rooms: Integer,
-		separate_access: Boolean,
-		apartment: Boolean,
-		rent_whole_unit: Boolean,
-		pet_allowed: Boolean,
-		easy_access_public_transport: Boolean
+  		furnished: { type: String, default: 'off' }, 
+  		parking: { type: String, default: 'off' },
+  		shared_living_room: { type: String, default: 'off' },
+  		garage: { type: String, default: 'off' },
+  		laundry: { type: String, default: 'off' },
+  		internet: { type: String, default: 'off' },
+  		private_bathroom: { type: String, default: 'off' },
+  		separate_access:{ type:  String , default: 'off' },
+  		pet_allowed: { type: String, default: 'off' },
+  		easy_access_public_transport: { type: String, default: 'off' },
+      rent_whole_unit: { type: String, default: 'off' },
+      rental_unit_type: { type: String, default: 'off' },
+      num_of_rooms: { type: Number, default: 1 }
   	},
 
     // more inforamtion on the rental.
     rental_description: String,
 
     // want roomate?
-    roommate_request: Boolean,
+    roommate_request: String,
+    num_of_requested_roommates: Number,
 
-    // already have roomnates?
-    group_rental: Boolean
+    // already have roomnates?2
+    group_rental: String,
+    num_of_roommates: Number,
+
+    phone: String,
+    email: String
+
 });
 
-module.exports = mongoose.model("RentalRequest", UserSchema);
+module.exports = mongoose.model("RentalRequest", RentalRequestSchema);

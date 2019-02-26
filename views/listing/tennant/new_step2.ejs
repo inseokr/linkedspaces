@@ -26,7 +26,7 @@
     </div>
   </div>
   
-  <form role="form" action="/listing/new_2nd_step" method="post">
+  <form role="form" action="/listing/tennant/<%=listing_id%>?_method=PUT" method="post">
     <div class="row setup-content" id="step-2">
       <div class="col-md-6 offset-md-3">
         <div class="col-md-12">
@@ -37,57 +37,57 @@
           <!-- collect rental preferences -->
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="furnished" value="">Furnished
+              <input type="checkbox" class="form-check-input" name="rental_preferences[furnished]" >Furnished
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="parking" value="">Parking
+              <input type="checkbox" class="form-check-input" name="rental_preferences[parking]" >Parking
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="shared_living_room" value="">Living Room(shared)
+              <input type="checkbox" class="form-check-input" name="rental_preferences[shared_living_room]" >Living Room(shared)
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="garage" value="">Garage
+              <input type="checkbox" class="form-check-input" name="rental_preferences[garage]" >Garage
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="laundry" value="">Laundry
+              <input type="checkbox" class="form-check-input" name="rental_preferences[laundry]" >Laundry
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" style="margin-left:11.8px" name="internet" value="">Internet
+              <input type="checkbox" class="form-check-input" style="margin-left:11.8px" name="rental_preferences[internet]" >Internet
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" style="margin-left:-3px" name="private_bath" value="">Private Bath
+              <input type="checkbox" class="form-check-input" style="margin-left:-3px" name="rental_preferences[private_bathroom]" >Private Bath
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="separate_access" value="">Separate Access
+              <input type="checkbox" class="form-check-input" name="rental_preferences[separate_access]" >Separate Access
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="pet_allowed" value="">Pet Allowed
+              <input type="checkbox" class="form-check-input" name="rental_preferences[pet_allowed]" >Pet Allowed
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" style="margin-left:72px" name="public_transport" value="">Easy access to public transport
+              <input type="checkbox" class="form-check-input" style="margin-left:72px" name="rental_preferences[easy_access_public_transport]" >Easy access to public transport
             </label>
             </div>
             <div class="form-check-inline listing-check-box">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="rean_whole_unit" value="">Rent a whole unit
+              <input type="checkbox" class="form-check-input" name="rental_preferences[rent_whole_unit]" >Rent a whole unit
             </label>
             </div>
             <hr>
@@ -96,23 +96,23 @@
               <div class="form-group" style="margin-left:10px">
                 <label class="control-label">Type of Rental Unit</label>
                   <select>
-                  <option name="rental_unit_type" value="apartment"> Apartment </option>
-                  <option name="rental_unit_type" value="house"> Single house </option>
+                  <option name="rental_preferences[rental_unit_type]" value="apartment"> Apartment </option>
+                  <option name="rental_preferences[rental_unit_type]" value="house"> Single house </option>
                 </select>
               </div>
               <div class="form-group" style="margin-left:90px">
                 <label class="control-label">Number of Rooms</label>
                 <select>
-                  <option name="rental_unit_type" value="1">1</option>
-                  <option name="rental_unit_type" value="2">2</option>
-                  <option name="rental_unit_type" value="3">3 </option>
+                  <option name="rental_preferences[num_of_rooms]" value="1">1</option>
+                  <option name="rental_preferences[num_of_rooms]" value="2">2</option>
+                  <option name="rental_preferences[num_of_rooms]" value="3">3 </option>
                 </select>
               </div>
             </div>
             <hr>
             <div style="margin-top: 40px">
               <button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="exit">Prev</button>
-              <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="next">Next</button>
+              <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="step#2">Next</button>
             </div>
 
         </div>
