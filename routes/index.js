@@ -1,8 +1,11 @@
 var express = require("express");
+var app     = express();
 var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var fileUpload = require('express-fileupload');
 
+app.use(fileUpload());
 
 router.get("/", function(req, res){
 	res.render("landing");
@@ -62,6 +65,25 @@ router.post("/login", passport.authenticate("local",
 
 router.get("/homepage", function(req,res){
 	res.render("homepage");
+});
+
+
+router.post("/file_upload1", function(req,res){
+  // if (Object.keys(req.files).length == 0) {
+  //   return res.status(400).send('No files were uploaded.');
+  // }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.file_name;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('../public/user_resources/pictures/sample1.jpg', function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+
 });
 
 module.exports = router;

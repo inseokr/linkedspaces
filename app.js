@@ -9,7 +9,8 @@ var express = require("express"),
     User        = require("./models/user")
 
 var indexRoutes = require("./routes/index");
-var listingRoutes = require("./routes/listing"); 
+var listingRoutes = require("./routes/listing");
+var fileUpload = require('express-fileupload'); 
 
 var url = process.env.DATABASEURL || "mongodb://localhost/Linkedspaces";
 mongoose.connect(url,  { useNewUrlParser: true });
@@ -48,6 +49,25 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/listing", listingRoutes);
+
+app.use(fileUpload());
+
+app.post('/file_upload', function(req, res) {
+  if (Object.keys(req.files).length == 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.file_name;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('./public/user_resources/pictures/sample.jpg', function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+});
 
 app.listen(process.env.PORT, process.env.IP, function(){
 //app.listen(5000, "10.0.0.194", function(){
