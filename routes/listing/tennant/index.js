@@ -1,30 +1,13 @@
 var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
-var User = require("../models/user");
-var RentalRequest = require("../models/listing/rental_request");
+var User = require("../../../models/user");
+var RentalRequest = require("../../../models/listing/rental_request");
 var node = require("deasync");
+
 node.loop = node.runLoopOnce;
 
-
-router.get("/", function(req,res){
-	res.render("listing_main");
-});
-
-router.post("/", function(req, res){
-
-    if(req.body.post_type=="landlord")
-    {
-        res.render("listing/landlord/new");
-        
-    } else 
-    {
-    	res.render("listing/tennant/new");
-    }
-	
-});
-
-router.post("/tennant/new", function(req, res){
+router.post("/new", function(req, res){
 	if(req.body.submit=="exit")
 	{
 		res.render("listing_main");
@@ -50,7 +33,7 @@ router.post("/tennant/new", function(req, res){
 });
 
 // the route name may need to be revised.
-router.put("/tennant/:list_id", function(req, res){
+router.put("/:list_id", function(req, res){
 
 	if(req.body.submit=="exit")
 	{
@@ -148,4 +131,5 @@ router.put("/tennant/:list_id", function(req, res){
 
 	}
 });
+
 module.exports = router;

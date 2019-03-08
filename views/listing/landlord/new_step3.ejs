@@ -1,0 +1,108 @@
+<% include ../../partials/header %>
+
+<div class="container" style="text-align: center; margin-bottom: 10px">
+  <h3>Listing room/house</h3>  
+</div>
+
+<div class="container">
+<!-- totalSteps and curr_step should be provided -->
+	<%var curr_step=3; 
+	  var totalSteps=6;
+	  var action_url="/listing/landlord/new";
+	  var action_method="POST";
+	  var title = "What amenities do you offer?"%> 
+	<% include ../../partials/stepwizard_header %>
+	<!-- how many bedrooms & guests to accomodate -->
+	<div class="d-flex flex-column">
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="internet" id="internet">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px"> WiFi, broadband internet </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="closet" id="closet">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> Closet/Drawer </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="tv" id="tv">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> TV/entertainment system </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="heating" id="heating">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> Heating </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="ac" id="ac">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto;margin-left: 5px;"> Air conditioning </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="desk" id="desk">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto;margin-left: 5px;"> Desk/Workspace</div>
+		    </div>
+		</div>		
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="smoke_detector" id="smoke_detector">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto;margin-left: 5px;"> Smoke Detector </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+			        <label class="switch switch-sm" style="margin-bottom: auto">
+			            <input type="checkbox" class="primary" style="margin-left:-3px" name="private_entrance" id="private_entrance">
+			            <span class="slider-sm round"></span>
+			        </label>
+					<div style="margin-bottom:auto;margin-left: 5px;"> Private Entrance </div>
+			    </div>
+			</div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+			        <label class="switch switch-sm" style="margin-bottom: auto">
+			            <input type="checkbox" class="primary" style="margin-left:-3px" name="fire_extinguisher" id="fire_extinguisher">
+			            <span class="slider-sm round"></span>
+			        </label>
+					<div style="margin-bottom:auto;margin-left: 5px;"> Fire extinguisher </div>
+			    </div>
+			</div>
+		</div>
+		<hr>
+		<div class="p-2">
+    		<button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="prev">Prev</button>
+    		<button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="step#3">Next</button>
+    	</div>
+	</div>
+</div>
+
+<% include ../../partials/footer %>

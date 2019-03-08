@@ -59,6 +59,9 @@
     -webkit-appearance: none !important;
 }
 
+.btn-outline-secondary {
+    background-color: white;
+}
 
 .flex-container {
   display: flex;
@@ -72,4 +75,9 @@
 .roommate-multiple-entries {
     /*width: 50%;*/
     display: block;
+}
+
+.btn-empty {
+    background-color: #FFF;
+    color: #000;
 }

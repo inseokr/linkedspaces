@@ -29,52 +29,9 @@
   <form role="form" action="/listing/tennant/new" method="POST">
     <div class="row setup-content" id="step-1">
       <div class="col-md-6 offset-md-3">
-        <div class="col-md-12">
-          <div style="text-align:center">
-            <h5> Location Information</h5>
-          </div>
-          <hr>          
+        <div class="col-md-12">      
           <!-- collect rental location -->
-          <div class="flex-container">
-            <div class="form-group" style="width:60%">
-              <label class="control-label">Street</label>
-              <input class="form-control" style="width:90%" required="required" type="text" maxlength="100" name="location[street]" placeholder="Enter Street">
-            </div>
-            <div class="form-group" style="width:25%">
-              <label class="control-label">City</label>
-              <input class="form-control" style="width:90%" required="required" type="text" maxlength="100" name="location[city]" placeholder="Enter City">
-            </div>
-            <div class="form-group" style="width:15%">
-              <label class="control-label">State</label>
-              <!--<select class="form-control" style="width:90%" required="required" name="state" placeholder="State">-->
-              <select class="form-control" style="width:90%" required="required" name="location[state]" placeholder="State">
-              <% var usa_states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
-                usa_states.forEach(function(state) { %>
-                  <option value=<%=state%>><%=state%></option>
-                <% }); %>
-              </select>
-            </div>
-          </div>
-
-          <div class="flex-container">
-            <div class="form-group" style="width:20%">
-              <label class="control-label">Zipcode</label>
-              <input class="form-control" style="width:80%" required="required" name="location[zipcode]" placeholder="Zipcode"></input>
-            </div>
-            <div class="form-group" style="width:30%">
-              <label class="control-label">Country</label>
-              <input class="form-control" required="required" style="width:80%" name="location[country]" placeholder="Country"></input>
-            </div>
-            <div class="form-group" style="width:40%">
-                <label class="control-label">Maximum Range in miles</label>
-                <select class="form-control" style="width:80%" required="required" name="maximum_range_in_miles" placeholder="">
-                <% 
-                  for (var cur_miles=10; cur_miles<100; cur_miles+=10) {%>
-                      <option value=<%=cur_miles%>> $<%=cur_miles%> miles </option>
-               <% } %>
-              </select>
-            </div>
-          </div>
+          <% include ../../partials/location %>
           <div style="text-align:center">
             <h5> Rental Duration & Budget</h5>
           </div>

@@ -1,0 +1,79 @@
+<% include ../../partials/header %>
+
+<div class="container" style="text-align: center; margin-bottom: 10px">
+  <h3>Listing room/house</h3>  
+</div>
+
+<div class="container">
+<!-- totalSteps and curr_step should be provided -->
+	<%var curr_step=4; 
+	  var totalSteps=6;
+	  var action_url="/listing/landlord/new";
+	  var action_method="POST";
+	  var title = "What spaces can tennants use?"%> 
+	<% include ../../partials/stepwizard_header %>
+	<div class="d-flex flex-column">
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="living_room" id="living_room">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px"> Living Room </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="pool" id="pool">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> Pool </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="gym" id="gym">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> Gym </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="kitchen" id="kitchen">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto; margin-left: 5px;"> Kitchen </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="laundry" id="laundry">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto;margin-left: 5px;"> Laundry </div>
+		    </div>
+		</div>
+		<div class="p-2">
+			<div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
+		        <label class="switch switch-sm" style="margin-bottom: auto">
+		            <input type="checkbox" class="primary" style="margin-left:-3px" name="parking" id="parking">
+		            <span class="slider-sm round"></span>
+		        </label>
+				<div style="margin-bottom:auto;margin-left: 5px;">Parking(Garage or driveway)</div>
+		    </div>
+		</div>
+
+		<div class="p-2" style="margin-bottom:10px;">
+			<hr>
+    		<button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="prev">Prev</button>
+    		<button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="step#3">Next</button>
+    	</div>
+	</div>
+</div>
+
+<% include ../../partials/footer %>
