@@ -15,7 +15,7 @@
 
  					<div class="d-flex">
 						<div class="p-2 flex-fill mr-auto">
-							<select class="form-control" required="required" name="rental_house_information[room_type]" placeholder="Private Room">
+							<select class="form-control" required="required" name="rental_property_information[room_type]" placeholder="Private Room">
 		              		<% var rentalTypeArray = ["Entire Place", "Private Room", "Shared Room"];
 		                		rentalTypeArray.forEach(function(rentalType) { %>
 		                  		<option value=<%=rentalType%>><%=rentalType%></option>
@@ -23,7 +23,7 @@
 		              		</select>
 	              		</div>
 	              		<div class="p-2 flex-fill ml-auto">
-		              		<select class="form-control"  required="required" name="rental_house_information[unit_type]" placeholder="Single House">
+		              		<select class="form-control"  required="required" name="rental_property_information[unit_type]" placeholder="Single House">
 		              		<% var rentalTypeArray = ["Apartment", "Single House", "Guest House"];
 		                		rentalTypeArray.forEach(function(unitType) { %>
 		                  		<option value=<%=unitType%>><%=unitType%></option>

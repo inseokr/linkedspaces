@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var RentalRequestSchema = new mongoose.Schema({
+var TennantRequestSchema = new mongoose.Schema({
 	  requester: {
       id: {
          type: mongoose.Schema.Types.ObjectId,
@@ -107,4 +107,4 @@ var RentalRequestSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("RentalRequest", RentalRequestSchema);
+module.exports = mongoose.model("TennantRequest", TennantRequestSchema);

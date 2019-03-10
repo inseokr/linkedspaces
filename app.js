@@ -15,6 +15,8 @@ var landlordRoutes = require("./routes/listing/landlord/index");
 var tennantRoutes  = require("./routes/listing/tennant/index");
 var fs             = require("fs");
 
+var LandlordRequest = require("./models/listing/landlord_request");
+
 var fileUpload     = require('express-fileupload'); 
 
 var url = process.env.DATABASEURL || "mongodb://localhost/Linkedspaces";
@@ -59,42 +61,71 @@ app.use("/listing/tennant", tennantRoutes);
 app.use(fileUpload());
 
 
+
 // ISEO: req.files were undefined if it's used in routers.
 // We need to address this problem later, but I will define it inside app.js for now.
-app.post('/listing/landlord/file_upload', function(req, res) {
+app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
 
-  if (Object.keys(req.files).length == 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
+  console.log("file upload: listing_id: " + req.params.list_id);
 
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.file_name;
-  let picIndex = req.body.pic_index;
-  console.log("ISEO: Picture index = " + picIndex);
+  LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+    if (Object.keys(req.files).length == 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
 
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(`./public/user_resources/pictures/_${picIndex}.jpg`, function(err) {
-    if (err)
-      return res.status(500).send(err);
+    console.log("Found listing. listing_id=" + req.params.list_id);
 
-    console.log("ISEO: Successful File upload")
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.file_name;
+    let picIndex = req.body.pic_index;
+    let list_id = req.params.list_id;
+    let picPath = "./public/user_resources/pictures/"+list_id+"_"+picIndex+".jpg";
 
-    res.send('File uploaded!');
+    console.log("picPath=" + picPath);
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(picPath, function(err) {
+      if (err)
+        return res.status(500).send(err);
+
+      console.log("ISEO: Successful File upload");
+      var picture = {path: picPath, caption: req.body.caption};
+
+      // check if entry exists already
+      if(picIndex>foundListing.pictures.length)
+      {
+        foundListing.pictures.push(picture);
+      }
+      else
+      {
+        foundListing.pictures[picIndex-1] = picture;
+      }
+
+      foundListing.num_of_pictures_uploaded =  foundListing.num_of_pictures_uploaded + 1;
+      foundListing.save();
+
+      res.send('File uploaded!');
+    });
   });
+
 });
 
-app.post('/listing/landlord/file_delete', function(req, res) {
+app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
   console.log("ISEO: file_delete called with pic_index=" + req.body.pic_index);
   var picIndex = req.body.pic_index;
-  const file_path = `./public/user_resources/pictures/_${picIndex}.jpg`;
 
-  try {
-    fs.unlinkSync(file_path);
-    
-  }  catch(err){
-    console.error(err);
-  }
-  
+  LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+    try {
+      const picPath = "./public/user_resources/pictures/"+req.params.list_id+"_"+picIndex+".jpg";
+
+      fs.unlinkSync(picPath);
+      foundListing.pictures[picIndex-1].path = "";
+      foundListing.num_of_pictures_uploaded = foundListing.num_of_pictures_uploaded - 1;
+      foundListing.save();
+    }  catch(err){
+      console.error(err);
+    }
+  });
 
 });
 

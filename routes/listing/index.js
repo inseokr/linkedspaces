@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../../models/user");
-var RentalRequest = require("../../models/listing/rental_request");
+var RentalRequest = require("../../models/listing/tennant_request");
 var node = require("deasync");
 
 node.loop = node.runLoopOnce;

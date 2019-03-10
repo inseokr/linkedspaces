@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../../../models/user");
-var RentalRequest = require("../../../models/listing/rental_request");
+var TennantRequest = require("../../../models/listing/tennant_request");
 var node = require("deasync");
 
 node.loop = node.runLoopOnce;
@@ -15,7 +15,7 @@ router.post("/new", function(req, res){
 	else 
 	{
 		// create a new listing\
-		var newListing = new RentalRequest;
+		var newListing = new TennantRequest;
 
 		//add username and id
         newListing.requester.id = req.user._id;
@@ -41,7 +41,7 @@ router.put("/:list_id", function(req, res){
 	}
 	else 
 	{
-		RentalRequest.findById(req.params.list_id, function(err, foundListing){
+		TennantRequest.findById(req.params.list_id, function(err, foundListing){
 			if(err){
 				req.flash("error", "No such listing found");
 				res.redirect("/");
@@ -49,7 +49,7 @@ router.put("/:list_id", function(req, res){
 
 				if(req.body.submit=="step#2")
 				{
-					foundListing.rental_preferences = req.body.rental_preferences;
+					foundListing.rental_preferences = req.body.preferences;
 
 					foundListing.save();
 

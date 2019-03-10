@@ -9,7 +9,7 @@
 <!-- totalSteps and curr_step should be provided -->
 	<%var curr_step=5; 
 	  var totalSteps=6;
-	  var action_url="/listing/landlord/new";
+	  var action_url="/listing/landlord/"+listing_id+"?_method=PUT";
 	  var action_method="POST";
 	  var title = "Set the scenes for online tour"%>
 	<% include ../../partials/stepwizard_header %>
@@ -17,7 +17,8 @@
 	<link rel="stylesheet" href="/stylesheets/file_upload_v1.css">
 	
      	<!--<div class="row text-center">-->
-        <% for (var picIndex=1; picIndex<=20; picIndex++) {
+        <% 
+        for (var picIndex=1; picIndex<=20; picIndex++) {
 	    if ((picIndex%2==0) || (picIndex==1)) {%>
 		<div class="row text-center" style="display:flex; flex-wrap: wrap;">
 		<% } %>
@@ -35,18 +36,18 @@
 
 				        <div class="avatar-delete" id="<%=`avatar-delete-${picIndex}`%>" onmouseover="handleOnMouseHooverImagePreview(this, <%=`${picIndex}`%>)">
 				        	<input type="text" id="<%=`deletePicIcon-${picIndex}`%>" >
-				            <label for="<%=`imageUpload-${picIndex}`%>" id="<%=`deleteLabel-${picIndex}`%>" onclick="handleOnClickDeletePic(this,<%=`${picIndex}`%>)"></label>
+				            <label for="<%=`imageUpload-${picIndex}`%>" id="<%=`deleteLabel-${picIndex}`%>" onclick="handleOnClickDeletePic(this,<%=`${picIndex}`%>, '<%=`${listing_id}`%>')"></label>
 				        </div>
 
 				        <div class="avatar-preview" id="<%=`avatar-preview-${picIndex}`%>">
 				            <div id="<%=`imagePreview-${picIndex}`%>"  onmouseover="handleOnMouseHooverImagePreview(this, <%=`${picIndex}`%>)" onmouseout="handleOnMouseOutImagePreview(this, <%=`${picIndex}`%>)">
-					                <input type='file' name="file_name" id="<%=`imageDefaultUpload-${picIndex}`%>" onchange="readURL(this, <%=`${picIndex}`%>)" accept=".png, .jpg, .jpeg"/>
+					                <input type='file' name="file_name" id="<%=`imageDefaultUpload-${picIndex}`%>" onchange="readURL(this, <%=`${picIndex}`%>, '<%=`${listing_id}`%>')" accept=".png, .jpg, .jpeg"/>
 					                <label class="pictureAddLabel" id="<%=`previewLabel-${picIndex}`%>" for="<%=`imageDefaultUpload-${picIndex}`%>" style="opacity: 1">+</label>
 				            </div>
 				        </div>
 
 	                    <div class="caption">
-				        	<input type="text" id="<%=`imageCapture-${picIndex}`%>" placeholder="Add Caption" ></input>
+				        	<input type="text" name="<%=`caption-${picIndex}`%>" id="<%=`imageCapture-${picIndex}`%>" placeholder="Add Caption" ></input>
 						</div>
 			    	</div>
                 </div>
@@ -61,7 +62,7 @@
 		<hr>
 		<div class="d-flex">
 			<button class="btn btn-success btn-lg mr-auto" type="submit" name="submit" value="prev">Prev</button>
-			<button class="btn btn-primary nextBtn btn-lg ml-auto" type="submit" name="submit" value="step#3">Next</button>		
+			<button class="btn btn-primary nextBtn btn-lg ml-auto" type="submit" name="submit" value="step#5">Next</button>	
 		</div>
 </div>
 
@@ -91,7 +92,7 @@ for (var pictureIndex =1; pictureIndex <=20; pictureIndex++)
 	}
 }
 
-function handleOnClickDeletePic(elementId, picIndex)
+function handleOnClickDeletePic(elementId, picIndex, _id)
 {
 	// Upload the file along with caption
 	var myFormData = new FormData();
@@ -100,7 +101,7 @@ function handleOnClickDeletePic(elementId, picIndex)
 	// ISEO: may need to add listing ID as well.
 	$.ajax({
 	  enctype: 'multipart/form-data',
-	  url: '/listing/landlord/file_delete',
+	  url:  `/listing/landlord/${_id}/file_delete`,
 	  type: 'POST',
 	  processData: false, // important
 	  contentType: false, // important
@@ -111,6 +112,9 @@ function handleOnClickDeletePic(elementId, picIndex)
     $(`#imagePreview-${picIndex}`).css('background-image', 'url("")');
     $(`#previewLabel-${picIndex}`).css('opacity', 1);
     $(`#deleteLabel-${picIndex}`).css('opacity', 0)
+
+    // ISEO: this may need some  adjustement as the deletion could happen randomly.
+    nextPictureIndex--;
 }
 
 function handleOnMouseHooverImagePreview(elementId, picIndex) {
@@ -145,7 +149,8 @@ function handleOnMouseOutImagePreview(elementId, picIndex) {
 
 }
 
-function readURL(input, picIndex) {
+
+function readURL(input, picIndex, _id) {
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -166,11 +171,12 @@ function readURL(input, picIndex) {
 		var myFormData = new FormData();
 		myFormData.append("file_name", input.files[0]);
 		myFormData.append("pic_index", picIndex);
+        myFormData.append("caption", $(`#imageCapture-${picIndex}`).val());
 
 		// ISEO: may need to add listing ID as well.
 		$.ajax({
 		  enctype: 'multipart/form-data',
-		  url: '/listing/landlord/file_upload',
+		  url: `/listing/landlord/${_id}/file_upload`,
 		  type: 'POST',
 		  processData: false, // important
 		  contentType: false, // important
