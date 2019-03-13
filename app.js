@@ -14,6 +14,7 @@ var listingRoutes  = require("./routes/listing/index");
 var landlordRoutes = require("./routes/listing/landlord/index");
 var tennantRoutes  = require("./routes/listing/tennant/index");
 var fs             = require("fs");
+var path           = require("path");
 
 var LandlordRequest = require("./models/listing/landlord_request");
 
@@ -128,6 +129,14 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
   });
 
 });
+
+
+app.get("/public/user_resources/pictures/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/public/user_resources/pictures/${fileName}`));
+});
+
 
 
 app.listen(process.env.PORT, process.env.IP, function(){

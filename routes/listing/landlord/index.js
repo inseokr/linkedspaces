@@ -4,6 +4,7 @@ var passport = require("passport");
 var User = require("../../../models/user");
 var LandlordRequest = require("../../../models/listing/landlord_request");
 var node = require("deasync");
+var path = require("path");
 
 node.loop = node.runLoopOnce;
 
@@ -144,6 +145,19 @@ router.put("/:list_id", function(req, res){
 	}
 });
 // ISEO: this is just for testing
+
+router.get("/show", function(req, res){
+	res.render("listing/landlord/show_v1");
+});
+
+
+
+router.get("/:filename", function(req, res){
+	var fileName = req.params.filename;
+ 	console.log("received file name=" + fileName)
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
+});
+
 
 router.get("/new_step3", function(req,res){
 	res.render("listing/landlord/new_step3");
