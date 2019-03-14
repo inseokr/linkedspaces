@@ -28,10 +28,10 @@
 
 		<div class="col form-check-inline listing-check-box" style="margin-left: 40px;">
 			<div style="margin-bottom:auto"> Bathroom </div>
-            <select id="bathrooms_select" style="margin-left: 10px; margin-bottom: auto;">
-              <option name=<%=`bedroom_${bedroom_index}[num_of_bathrooms]`%> value="0">0</option>
-              <option name=<%=`bedroom_${bedroom_index}[num_of_bathrooms]`%>  value="0.5">0.5</option>
-              <option name=<%=`bedroom_${bedroom_index}[num_of_bathrooms]`%>  value="1">1</option>
+            <select id="bathrooms_select" name=<%=`bedroom_${bedroom_index}[num_of_bathrooms]`%> style="margin-left: 10px; margin-bottom: auto;">
+              <option value="0">0</option>
+              <option value="0.5">0.5</option>
+              <option value="1">1</option>
             </select>
 	    </div>
 
@@ -42,12 +42,12 @@
 	
 		<div class="row">
 			<div class="col">
-				<% var count_name = `bedroom_index_${bedroom_index}[num_of_sinlge_bed_bedroom]`; %>
+				<% var count_name = `bedroom_${bedroom_index}[num_of_sinlge_bed_bedroom]`; %>
 				<% var count_title = "Single Bed" %>
 				<% include ../../partials/count_wizard %>
 			</div>
 			<div class="col">
-				<% var count_name = `bedroom_index_${bedroom_index}[num_of_double_bed_bedroom]`; %>
+				<% var count_name = `bedroom_${bedroom_index}[num_of_double_bed_bedroom]`; %>
 				<% var count_title = "Double Bed" %>
 				<% include ../../partials/count_wizard %>
 			</div>
@@ -55,12 +55,12 @@
 
 		<div class="row">
 			<div class="col">
-				<% var count_name = `bedroom_index_${bedroom_index}[num_of_queen_bed_bedroom]`; %>
+				<% var count_name = `bedroom_${bedroom_index}[num_of_queen_bed_bedroom]`; %>
 				<% var count_title = "Queen Bed" %>
 				<% include ../../partials/count_wizard %>
 			</div>
 			<div class="col">
-				<% var count_name = `bedroom_index_${bedroom_index}[num_of_sofa_bed_bedroom]`; %>
+				<% var count_name = `bedroom_${bedroom_index}[num_of_sofa_bed_bedroom]`; %>
 				<% var count_title = "Sofa Bed" %>
 				<% include ../../partials/count_wizard %>
 			</div>
@@ -68,7 +68,7 @@
 
 		<div class="row">
 			<div class="col">
-				<% var count_name = `bedroom_index_${bedroom_index}[num_of_floor_mattress_bedroom]`; %>
+				<% var count_name = `bedroom_${bedroom_index}[num_of_floor_mattress_bedroom]`; %>
 				<% var count_title = "Floor Mattress" %>
 				<% include ../../partials/count_wizard %>
 			</div>
