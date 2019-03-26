@@ -51,30 +51,19 @@
 	<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 		  aria-hidden="true">
 		  <div class="modal-dialog" role="document">
-		    <div class="modal-content" style="width: 300px !important;">
+		    <div class="modal-content">
 		      <div class="modal-header text-center">
-		        <h4 class="modal-title w-100 font-ss="close" data-dismiss="modal" ariweight-bold" style="color:black">LinkedSpaces</h4>
+		        <h4 class="modal-title w-100 font-weight-bold" style="color:black">Sign in</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
 		      </div>
-
-<!-- Facebook Login
-          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-          </fb:login-button>
--->
-
-			  <div class="md-form mb-5 form-group" style="margin:auto; margin-top:20px; margin-bottom: 10px !important;">
-				<a href="/auth/facebook"><img src="/public/user_resources/pictures/facebook_login.png" style="width: 270px; height:45px;" alt="Facebook"></a>
-			  </div>
-
-			  <div class="modal-body text-center" style="margin-bottom: 0px !important">
-			  	<span class="strike-through" style="color:LightGrey ;"> or </span>
-			  </div>
 
 		      <form action="/login" method="POST" role="form">
 
 		      	<div class="modal-body form-group">
-			    	<!--FACEBOOK login-->
-
-			        <div class="md-form mb-5 form-group" style="margin-bottom: 10px !important;">
+			    
+			        <div class="md-form mb-5 form-group">
 			        	<div class="input-group">
 			          		<input type="text" class="form-control validate" name="username">
 			          		<div class="input-group-append">
@@ -84,7 +73,7 @@
   					  <label data-error="wrong" data-success="right" for="defaultForm-email" style="color: black">Your login name</label>
 			        </div>
 
-			        <div class="md-form mb-4 form-group" style="margin-bottom: 5px !important;">
+			        <div class="md-form mb-4 form-group">
 			        	<div class="input-group">
 				          <input type="password" id="defaultForm-pass" class="form-control validate" name="password">
 				          <div class="input-group-append">
@@ -97,7 +86,7 @@
 			    </div>
 
 			    <div class="modal-footer d-flex justify-content-center form-group">
-			       <button class="btn btn-danger p-2 flex-grow-1">Login</button>
+			        <button class="btn btn-danger p-2 flex-grow-1">Login</button>
 			    </div>
 			  </form>
 		    </div>
@@ -118,80 +107,3 @@
             </div>
         <% } %>
     </div>
-
-<!-- To support Facebook login -->
-<!-- It's not used for now. currently switched to passport-facebook module -->
-<script>
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-    } else {
-      // The person is not logged into your app or we are unable to tell.
-      FB.login(function(response){
-      	//Handle the response object, like in statusChangeCallback()
-      });
-    }
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1011405085718313',
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v3.2' // The Graph API version to use for the call
-    });
-
-    // Now that we've initialized the JavaScript SDK, we call 
-    // FB.getLoginStatus().  This function gets the state of the
-    // person visiting this page and can return one of three states to
-    // the callback you provide.  They can be:
-    //
-    // 1. Logged into your app ('connected')
-    // 2. Logged into Facebook, but not your app ('not_authorized')
-    // 3. Not logged into Facebook and can't tell if they are logged into
-    //    your app or not.
-    //
-    // These three cases are handled in the callback function.
-
-    //FB.getLoginStatus(function(response) {
-    //  statusChangeCallback(response);
-    //});
-
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', {fields: 'first_name,last_name,email'}, function(response) {
-      console.log('Successful login: ' + response.email);
-    });
-  }
-</script>

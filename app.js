@@ -1,24 +1,27 @@
-var express        = require("express"),
-	  app            = express(),
-	  bodyParser     = require("body-parser"),
-    mongoose       = require("mongoose"),
-    flash          = require("connect-flash"),
-    passport       = require("passport"),
-    LocalStrategy  = require("passport-local"),
-    methodOverride = require("method-override"),
-    User           = require("./models/user")
+var express          = require("express"),
+	  app              = express(),
+	  bodyParser       = require("body-parser"),
+    mongoose         = require("mongoose"),
+    flash            = require("connect-flash"),
+    passport         = require("passport"),
+    LocalStrategy    = require("passport-local"),
+    FacebookStrategy = require("passport-facebook").Strategy,
+    methodOverride   = require("method-override"),
+    User             = require("./models/user")
 
 // routes
-var indexRoutes    = require("./routes/index");
-var listingRoutes  = require("./routes/listing/index");
-var landlordRoutes = require("./routes/listing/landlord/index");
-var tennantRoutes  = require("./routes/listing/tennant/index");
-var fs             = require("fs");
-var path           = require("path");
+var indexRoutes      = require("./routes/index");
+var listingRoutes    = require("./routes/listing/index");
+var landlordRoutes   = require("./routes/listing/landlord/index");
+var tennantRoutes    = require("./routes/listing/tennant/index");
+var fs               = require("fs");
+var path             = require("path");
 
-var LandlordRequest = require("./models/listing/landlord_request");
+var LandlordRequest  = require("./models/listing/landlord_request");
 
-var fileUpload     = require('express-fileupload'); 
+var fileUpload       = require('express-fileupload'); 
+
+var facebook         = require('./facebook.js');
 
 var url = process.env.DATABASEURL || "mongodb://localhost/Linkedspaces";
 mongoose.connect(url,  { useNewUrlParser: true });
@@ -45,6 +48,28 @@ passport.use(new LocalStrategy(User.authenticate())); // iseo: passport will use
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+passport.use(new FacebookStrategy({
+    clientID: '1011405085718313',
+    clientSecret: '3b630313a8a2c8983405b55c11289e8b',
+    callbackURL: "http://localhost:5000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+
+    console.log("Facebook Login Completed. ID="+profile.id);
+
+    facebook.getFbData(accessToken, `/${profile.id}`,"friends,email,name",  
+        function(response) {
+          console.log(response);
+    });
+
+    // Login completed... but how I could redirect the page??
+    User.findOne({username:'inseo'}, function(err, user) {
+      if (err) { return done(err); }
+
+      done(null, user);
+    });
+  }
+));
 
 // iseo: It's kind of pre-processing or middleware for route handling
 app.use(function(req, res, next){
@@ -80,7 +105,7 @@ app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
     let sampleFile = req.files.file_name;
     let picIndex = req.body.pic_index;
     let list_id = req.params.list_id;
-    let picPath = "./public/user_resources/pictures/"+list_id+"_"+picIndex+".jpg";
+    let picPath = "./public/user_resources/pictures/"+list_id+"_"+picIndex+"."+sampleFile.name.split(".")[1];
 
     console.log("picPath=" + picPath);
 
@@ -143,3 +168,23 @@ app.listen(process.env.PORT, process.env.IP, function(){
 //app.listen(5000, "10.0.0.194", function(){
    console.log("Linkedspaces Has Started!" + "PORT = " + process.env.PORT + " IP = " + process.env.IP);
 });
+
+//Facebook login
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook', 
+  {
+        successRedirect: "/listing",
+        failureRedirect: "/login"
+      }), function(req,res){
+      console.log("This callback is not expected, auth/facebook/callback will be called instead");
+});
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/listing',
+                                      failureRedirect: '/login' }));

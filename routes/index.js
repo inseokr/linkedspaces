@@ -9,6 +9,10 @@ router.get("/", function(req, res){
 	res.render("landing");
 });
 
+router.get("/facebook_login", function(req, res){
+    res.render("facebook_login");
+});
+
 // show sign-up form
 router.get("/signup", function(req, res){
 	res.render("signup");

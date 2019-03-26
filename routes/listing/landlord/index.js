@@ -48,6 +48,11 @@ function handleStep2(req, res, foundListing)
 		// foundListing.bedrooms.push(req.body.bedroom_1);
 		// So curBedRoom should contain not just the name but the structure... let's see if it works.
 		foundListing.bedrooms.push(curBedRoom);
+
+		foundListing.num_of_total_guests = foundListing.num_of_total_guests + Number(curBedRoom.num_of_guests_bedroom);
+		var numOfBathRooms = parseFloat(curBedRoom.num_of_bathrooms);
+
+		foundListing.num_of_total_baths = foundListing.num_of_total_baths + numOfBathRooms;
 	}
 
 	foundListing.save();
@@ -76,7 +81,7 @@ function handleStep5(req, res, foundListing)
 	{
 		if(foundListing.pictures[picIndex].path!="")
 		{
-			foundListing.pictures[picIndex].caption = eval(`req.body.caption_${picIndex}`);
+			foundListing.pictures[picIndex].caption = eval(`req.body.caption_${picIndex+1}`);
 			processedPictures++;
 		}	
 	}
@@ -87,14 +92,87 @@ function handleStep5(req, res, foundListing)
 
 function handleStep6(req, res, foundListing)
 {
-	foundListing.summary_of_listing = req.body.summary_of_listing;
-	foundListing.summary_of_neighborhood = req.body.summary_of_neighborhood;
-	foundListing.summary_of_transportation = req.body.summary_of_transportation;
+	foundListing.summary_of_listing = req.body.summary_of_listing.trim();
+	foundListing.summary_of_neighborhood = req.body.summary_of_neighborhood.trim();
+	foundListing.summary_of_transportation = req.body.summary_of_transportation.trim();
 	foundListing.rental_terms = req.body.rental_terms;
 	foundListing.move_in_date = req.body.move_in_date;
 	foundListing.contact = req.body.contact;
 
 	foundListing.save();
+}
+
+function preprocessListing(listing, accessibleSpaces, amenities)
+{
+	if(listing.accessible_spaces.living_room!='off')
+	{
+		accessibleSpaces.push("living room");
+	}
+
+	if(listing.accessible_spaces.pool!='off')
+	{
+		accessibleSpaces.push("pool");
+	}
+
+	if(listing.accessible_spaces.gym!='off')
+	{
+		accessibleSpaces.push("gym");
+	}
+
+	if(listing.accessible_spaces.laundry!='off')
+	{
+		accessibleSpaces.push("laundry");
+	}
+
+	if(listing.accessible_spaces.kitchen!='off')
+	{
+		accessibleSpaces.push("kitchen");
+	}
+
+	if(listing.accessible_spaces.parking!='off')
+	{
+		accessibleSpaces.push("parking");
+	}
+
+	// amenities
+	if(listing.amenities.internet!='off')
+	{
+		amenities.push("Internet");
+	}
+
+	if(listing.amenities.closet!='off')
+	{
+		amenities.push("Closet");
+	}
+
+	if(listing.amenities.tv!='off')
+	{
+		amenities.push("TV entertainment system");
+	}
+
+	if(listing.amenities.ac!='off')
+	{
+		amenities.push("Air Conditioner");
+	}
+
+	if(listing.amenities.desk!='off')
+	{
+		amenities.push("Desk");
+	}
+	if(listing.amenities.smoke_detector!='off')
+	{
+		amenities.push("Smoke detector");
+	}
+
+	if(listing.amenities.private_entrance!='off')
+	{
+		amenities.push("Private entrance");
+	}
+
+	if(listing.amenities.fire_extinguisher!='off')
+	{
+		amenities.push("Fire extinguisher");
+	}
 }
 
 router.put("/:list_id", function(req, res){
@@ -111,6 +189,21 @@ router.put("/:list_id", function(req, res){
 				res.redirect("/");
 			} else {
 				switch(req.body.submit) {
+					case "prev#2":
+						res.render("listing/landlord/new", {listing_id: req.params.list_id});
+						break;
+					case "prev#3":
+						res.render("listing/landlord/new_step2", {listing_id: req.params.list_id});
+						break;
+					case "prev#4":
+						res.render("listing/landlord/new_step3", {listing_id: req.params.list_id});
+						break;
+					case "prev#5":
+						res.render("listing/landlord/new_step4", {listing_id: req.params.list_id});
+						break;
+					case "prev#6":
+						res.render("listing/landlord/new_step5", {listing_id: req.params.list_id});
+						break;
 					case "step#2":
 						handleStep2(req,res,foundListing);
 						res.render("listing/landlord/new_step3", {listing_id: req.params.list_id});
@@ -131,7 +224,13 @@ router.put("/:list_id", function(req, res){
 						handleStep6(req,res,foundListing);
 						// need to add user ID of roommates if exists.
 						req.flash("success", "Listing posted successfully");
-						res.redirect("/");
+
+      					var facilities = [];
+      					var amenities = [];
+
+      					preprocessListing(foundListing, facilities, amenities);
+						res.render("listing/landlord/show", 
+							{listing_info: { listing: foundListing, accessibleSpaces: facilities, availableAmenities: amenities}});
 						break;
 					default: 
 						req.flash("error", "No such step found");
@@ -150,7 +249,13 @@ router.get("/show", function(req, res){
 	res.render("listing/landlord/show_v1");
 });
 
+router.get("/marker_trial", function(req, res){
+	res.render("listing/landlord/marker_trial")
+});
 
+router.get("/marker_trial_v1", function(req, res){
+	res.render("listing/landlord/marker_trial_v1")
+});
 
 router.get("/:filename", function(req, res){
 	var fileName = req.params.filename;
