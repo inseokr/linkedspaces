@@ -4,6 +4,7 @@ var passport = require("passport");
 var User = require("../../../models/user");
 var TennantRequest = require("../../../models/listing/tennant_request");
 var node = require("deasync");
+var path = require("path");
 
 node.loop = node.runLoopOnce;
 
@@ -130,6 +131,16 @@ router.put("/:list_id", function(req, res){
 		});
 
 	}
+});
+
+router.get("/show", function(req, res){
+	res.render("listing/tennant/show");
+});
+
+router.get("/:filename", function(req, res){
+	var fileName = req.params.filename;
+ 	console.log("received file name=" + fileName)
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
 });
 
 module.exports = router;
