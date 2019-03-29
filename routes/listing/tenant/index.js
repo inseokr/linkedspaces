@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../../../models/user");
-var TennantRequest = require("../../../models/listing/tennant_request");
+var TenantRequest = require("../../../models/listing/tenant_request");
 var node = require("deasync");
 var path = require("path");
 
@@ -16,7 +16,7 @@ router.post("/new", function(req, res){
 	else 
 	{
 		// create a new listing\
-		var newListing = new TennantRequest;
+		var newListing = new TenantRequest;
 
 		//add username and id
         newListing.requester.id = req.user._id;
@@ -29,7 +29,7 @@ router.post("/new", function(req, res){
 
         newListing.save();
 
-		res.render("listing/tennant/new_step2", {listing_id: newListing._id});
+		res.render("listing/tenant/new_step2", {listing_id: newListing._id});
 	}
 });
 
@@ -42,7 +42,7 @@ router.put("/:list_id", function(req, res){
 	}
 	else 
 	{
-		TennantRequest.findById(req.params.list_id, function(err, foundListing){
+		TenantRequest.findById(req.params.list_id, function(err, foundListing){
 			if(err){
 				req.flash("error", "No such listing found");
 				res.redirect("/");
@@ -54,7 +54,7 @@ router.put("/:list_id", function(req, res){
 
 					foundListing.save();
 
-					res.render("listing/tennant/new_step3", {listing_id:req.params.list_id});
+					res.render("listing/tenant/new_step3", {listing_id:req.params.list_id});
 				} else {
 					foundListing.rental_description = req.body.rental_description;
 

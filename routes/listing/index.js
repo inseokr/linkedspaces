@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../../models/user");
-var RentalRequest = require("../../models/listing/tennant_request");
+var RentalRequest = require("../../models/listing/tenant_request");
 var node = require("deasync");
 
 node.loop = node.runLoopOnce;
@@ -20,7 +20,7 @@ router.post("/", function(req, res){
         
     } else 
     {
-    	res.render("listing/tennant/new");
+    	res.render("listing/tenant/new");
     }
 });
 

@@ -14,7 +14,7 @@ var express          = require("express"),
 var indexRoutes      = require("./routes/index");
 var listingRoutes    = require("./routes/listing/index");
 var landlordRoutes   = require("./routes/listing/landlord/index");
-var tennantRoutes    = require("./routes/listing/tennant/index");
+var tenantRoutes     = require("./routes/listing/tenant/index");
 var fs               = require("fs");
 var path             = require("path");
 
@@ -83,7 +83,7 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/listing", listingRoutes);
 app.use("/listing/landlord", landlordRoutes);
-app.use("/listing/tennant", tennantRoutes);
+app.use("/listing/tenant", tenantRoutes);
 
 app.use(fileUpload());
 

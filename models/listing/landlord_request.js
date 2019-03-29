@@ -11,12 +11,12 @@ var LandlordRequestSchema = new mongoose.Schema({
 
     // 0. Initial State
     // 1. Being reviewed by middlemen or landlord
-    // 2. Connected with at least with one tennant
+    // 2. Connected with at least with one tenant
     // 3. In the middle of negotiation
     // 4. Transaction completed 
     state: Number,
 
-  	// list of tennants or middlemen helping this requests
+  	// list of tenants or middlemen helping this requests
   	request_responses: [
   	 { 
         responder: {
