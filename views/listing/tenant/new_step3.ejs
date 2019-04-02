@@ -1,8 +1,8 @@
 <% include ../../partials/header %>
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="bootstrap-formhelpers-phone.js"></script>                                                                                              
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>                                                                                             
 <link rel="stylesheet" href="/stylesheets/step_wizard.css">
+<link rel="stylesheet" href="/stylesheets/file_upload_v1.css">
 
 
 <div class="container" style="text-align: center; margin-bottom: 10px">
@@ -37,13 +37,43 @@
           </div>
           <hr>          
           <!-- Tell me more about you and this rental request-->
-          <div class="form-group">
-          <label for="description_on_rental">Tell me more about this rental request and yourself</label>
+          <div class="form-group" style="margin-top: 10px;">
+            <div style="text-align:center"> <h6>Tell me more about this rental request and yourself</h6> </div>
             <textarea type="text" class="form-control" id="description_on_rental" rows="5" name="rental_description" placeholder=""> </textarea>
-            <small id="descriptionHelp" class="form-text text-muted">This information will be used to find better rental options.
+            <small id="descriptionHelp" class="form-text text-muted" style="text-align:center !important;">This information will be used to find better rental options.</small>
           </div>
           
           <hr>
+
+          <!-- upload profile photos -->
+          <div style="text-align:center; margin-top:20px;">
+            <h6>Add your profile picture</h6>
+          </div>
+          <div class="avatar-upload" id="avatar-upload">
+                <div class="avatar-edit" id="avatar-edit" onmouseover="handleOnMouseHooverImagePreview(this)">
+                    <label for="imageUpload" id="editLabel"></label>
+                </div>
+
+                <div class="avatar-delete" id="avatar-delete" onmouseover="handleOnMouseHooverImagePreview(this)">
+                  <input type="text" id="deletePicIcon" >
+                    <label for="imageUpload" id="deleteLabel" onclick="handleOnClickDeletePic(this, '/listing/tenant', '<%=`${listing_id}`%>')"></label>
+                </div>
+
+                <div class="avatar-preview" id="avatar-preview">
+                    <div id="imagePreview"  onmouseover="handleOnMouseHooverImagePreview(this)" onmouseout="handleOnMouseOutImagePreview(this)" style="width:100%; max-height:100%; object-fit: cover; object-position: 100% 0% !important;">
+                          <input type='file' name="file_name" id="imageDefaultUpload" onchange="readURL(this, '/listing/tenant', '<%=`${listing_id}`%>')" accept=".png, .jpg, .jpeg"/>
+                          <label class="pictureAddLabel" id="previewLabel" for="imageDefaultUpload" style="opacity: 1">+</label>
+                    </div>
+                </div>
+
+                <div class="caption">
+                  <input type="text" name="caption" id="imageCapture" placeholder="Add Caption" style="text-align: center"></input>
+                </div>
+            </div>
+
+            <hr>
+
+          <!-- end of upload profile photos -->
 
           <div class="row form-group">
 
@@ -99,10 +129,10 @@
             <label for="description_on_rental">Contact Information</label>
             <hr>
               <div class="flex-container">
-                <div style="width: 30%">
-                  <input type="text" class="form-control" style="width: 90%" name="phone" placeholder="Enter your phone number">
+                <div style="width: 50%">
+                  <input type="text" class="form-control" style="width: 95%" name="phone" placeholder="Enter your phone number">
                 </div>
-                <div style="width: 70%">
+                <div style="width: 65%">
                   <input type="text" class="form-control" style="width: 100%" name="email" placeholder="Enter your email">
                 </div>
               </div>
@@ -119,9 +149,9 @@
   </form>
 </div>
 
+<script src="/scripts/file_upload.js"></script>
 
 <script>
-
 function handleClickRoommateRequest() {
   var checkBox                = document.getElementById("roommate_request");
   var roomMateRequestGroup    = document.getElementById("roommate_request_group");

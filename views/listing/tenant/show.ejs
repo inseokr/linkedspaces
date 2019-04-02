@@ -8,8 +8,8 @@
 
 <div class="row">
   <div class="col-3" style="height: 500px; margin-left: 30px; border:none;">
-  <img src="yoobin_justin.jpg" style="width:100%; max-height:100%; object-fit: cover; object-position: 100% 0%;">
-  <div class="border border-top-0" style="text-align: center; background-color:#FFFFFF;"> Justin Seo, Senior CS student in UC Santa Cruz</div> 
+  <img src="/public/user_resources/pictures/tenant/<%=listing_info.listing.profile_pictures[0].path.split("/")[listing_info.listing.profile_pictures[0].path.split("/").length-1]%>" align="right" style="width:100%; max-height:100%; object-fit: cover; object-position: 100% 0%;">
+  <div class="border border-top-0" style="text-align: center; background-color:#FFFFFF;"> <%=listing_info.listing.profile_pictures[0].caption%> </div> 
 
   </div>
 
@@ -18,10 +18,7 @@
         Self-introduction
   </div>
   <div class="_1ezjrwzo" style="margin-top: 20px !important">
-  I'm a sophomore English major at Chinese Cultural University in Taipei. Since high school English has been my favorite subject, and I study it very hard. Someday I hope to be a high school English teacher in Miao-li, my hometown in west-central Taiwan.
- In most respects I am a typical young Taiwanese woman. I have one elder brother, who recently graduated with an engineering degree from a university in southern Taiwan. My father is a civil servant for Miao-li city and mother is a full-time housewife. I spend most of my time at home watching TV, listening to pops, and studying English. Watching TV enables me to learn about current news and English expressions. I also have a part time job at a Chinese restaurant in downtown Taipei.
- Though I am an introvert and tend to get nervous when making speeches, I get along with close friends and enjoy chatting with them. I am generally considered oblidging and almost always am willing to do what friends want. 
- In summary, I'm an ordinary student with many dreams. One dream is that I hope to spend at least one year of my life in volunteer work. And I also hope to appear on television someday before marriage.
+  <%=listing_info.listing.rental_description%>
   </div>
   </div>
 
@@ -31,29 +28,59 @@
         Preferred Location
   </div>
   <div class="_1ezjrwzo">
-  Fremont, CA, USA
+  <%=listing_info.listing.location.city%>, <%=listing_info.listing.location.state%>, <%=listing_info.listing.location.country%>, <%=listing_info.listing.location.zipcode%>
   </div>
 
   <div class="sub_title" style="margin-top: 20px !important;">
         Budget
   </div>
   <div class="_1ezjrwzo">
-  $1000.00
+  $<%=listing_info.listing.rental_budget%>.00
   </div>
 
   <div class="sub_title" style="margin-top: 20px !important;">
         Move-in Date
   </div>
   <div class="_1ezjrwzo">
-  Mar/20/2019
+  <%=listing_info.listing.move_in_date.month%>/<%=listing_info.listing.move_in_date.date%>/<%=listing_info.listing.move_in_date.year%>
   </div>
 
   <div class="sub_title" style="margin-top: 20px !important;">
         Rental Duration
   </div>
   <div class="_1ezjrwzo">
-  6 months
+  <%=listing_info.listing.rental_duration%> months
   </div>
+
+  <div class="sub_title" style="margin-top: 20px !important;">
+        Preferred rental unit type
+  </div>
+  <div class="_1ezjrwzo">
+  <%=listing_info.listing.rental_preferences.rental_unit_type%>
+  </div>
+
+  <div class="sub_title" style="margin-top: 20px !important;">
+        Number of rooms or Whole Unit?
+  </div>
+  <div class="_1ezjrwzo">
+  <%if(listing_info.listing.rental_preferences.rent_whole_unit=="off") {%>
+  	<%=listing_info.listing.rental_preferences.num_of_rooms%> bedroom<%if(listing_info.listing.rental_preferences.num_of_rooms>1) {%>s<%}%>
+  	<%} else {%>
+  		Whole Unit
+  	<%}%>
+
+  </div>
+
+  <%if(listing_info.listing.num_of_requested_roommates>0) {%>
+
+  <div class="sub_title" style="margin-top: 20px !important;">
+        Additional tenant?
+  </div>
+  <div class="_1ezjrwzo">
+  <%=listing_info.listing.num_of_requested_roommates%>
+  </div>
+
+  <%}%>
 
   </div>
 
@@ -63,83 +90,28 @@
 <div class="container border" style="border-style: none !important; margin-top: 40px;">
   
   <hr>
-
   <div class="_1xzp5ma3">
-    Priority Conditions
+    Retal Preferences
   </div>
 
   <div class="wooden_background border rounded-top rounded-bottom" style="margin-top: 20px;">
     <div class="row sub_title" style="padding-top:8px; !important">
-      <div class="col-4" >
-        <ul>
-          <li> Internet </li>
-          <li> Closet </li>
-          <li> TV </li>
-        </ul>
-      </div>
+    
+    <% for (var preferenceIndex=0; preferenceIndex<listing_info.rentalPreferences.length; preferenceIndex++) {%>
+        <% if ((preferenceIndex%3)==0) {%>
+          <div class="col-4">
+            <ul>
+          <%}%>
+          <li><%=listing_info.rentalPreferences[preferenceIndex];%></li>
+         <%if ((preferenceIndex==2) || (preferenceIndex==5) || (preferenceIndex==listing_info.rentalPreferences.length-1)) {%>
+            </ul>
+          </div>
+          <%}%>
+        <%}%>
 
-      <div class="col-4" >
-        <ul>
-          <li> Air Conditioner </li>
-          <li> Desk </li>
-          <li> Smoke Detector </li>
-        </ul>
-      </div>
-
-      <div class="col-4" >
-        <ul>
-          <li> Private Entrance </li>
-          <li> Fire extinghisher </li>
-        </ul>
-      </div>
     </div>
-  </div> <!--Amenities-->
+  </div> <!--Preferences-->
 
-  <hr>
-  <div class="_1xzp5ma3" style="margin-top:40px;">
-    Preferred Conditions
-  </div>
-
-  <div class="wooden_background border rounded-top rounded-bottom" style="margin-top: 20px;">
-    <div class="row sub_title" style="padding-top:8px; !important">
-      <div class="col-4" >
-        <ul>
-          <li> Living room, shared </li>
-          <li> Community pool </li>
-        </ul>
-      </div>
-
-      <div class="col-4" >
-        <ul>
-          <li> Kitchen, shared </li>
-          <li> Parking, driveway </li>
-        </ul>
-      </div>
-    </div>
-  </div> <!-- Available facilities-->
-
-  <hr>
-  <div class="_1xzp5ma3" style="margin-top:40px;">
-    Additional preferences
-  </div>
-
-  <div class="wooden_background border rounded-top rounded-bottom" style="margin-top: 20px;">
-    <div class="row sub_title" style="padding-top:8px; !important">
-      <div class="col-4" >
-        <ul>
-          <li> Rental Property Type: Apartment </li>
-          <li> Pet allowed </li>
-        </ul>
-      </div>
-
-      <div class="col-6" >
-        <ul>
-          <li> Room share, looking for room mate </li>
-          <li> Public Transportation, VTA/Bus </li>
-        </ul>
-      </div>
-    </div>
-  </div> <!-- Rental terms-->
 
   <hr>
   <div class="_1xzp5ma3" style="margin-top:40px; margin-left:200px;">
@@ -148,7 +120,6 @@
 
   <div class="row" style="margin-top: 30px;">
     <div class="col-7 wooden_background border rounded-top rounded-bottom" style="">
-
 
     <div class="row">
     
@@ -166,7 +137,7 @@
       <div class=" thumbnail" background-color:#f2f2f2;>
         <img class="img-responsive center rounded-circle" src="Peter.jpg">
         <div class="caption-full ">
-          <h4 class="inner_contents" style="text-align:center !important;"> Sungjoon Ahn</h4>
+          <h4 class="inner_contents" style="text-align:center !important;"> Peter Bae</h4>
           <p></p>
         </div>
       </div>
@@ -176,7 +147,7 @@
       <div class=" thumbnail" background-color:#f2f2f2;>
         <img class="img-responsive center rounded-circle" src="sungjoon.jpg">
         <div class="caption-full ">
-          <h4 class="inner_contents" style="text-align:center !important;"> Joonho Oh</h4>
+          <h4 class="inner_contents" style="text-align:center !important;"> Sungjoon Ahn</h4>
           <p></p>
         </div>
       </div>
@@ -184,9 +155,9 @@
 
     <div class="col-3">
       <div class=" thumbnail" background-color:#f2f2f2;>
-        <img class="img-responsive center rounded-circle" src="Joongho.jpg">
+        <img class="img-responsive center rounded-circle" src="Jason.jpg">
         <div class="caption-full ">
-          <h4 class="inner_contents" style="text-align:center !important;"> Peter Bae</h4>
+          <h4 class="inner_contents" style="text-align:center !important;"> Jason Kim</h4>
           <p></p>
         </div>
       </div>
@@ -200,49 +171,13 @@
       <div style="margin-top:10px;">Contact</div>
       <div class="sub_title" style="margin-top:10px !important;">
         <ul  style="list-style-type:none;">
-          <li> Phone Number: 510-474-8138 </li>
-          <li> E-mail: inseo.kr@gmail.com </li>
+          <li> Phone Number: <%=listing_info.listing.phone%> </li>
+          <li> E-mail: <%=listing_info.listing.email%> </li>
         </ul>
       </div>
   </div>
 </div>
   <hr>
 </div>
-
-
-<script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var myAddress = '793 praderia circile, 94539/fremont';
-  var urlString = `https://maps.googleapis.com/maps/api/geocode/json?address=793+praderia+circle,
-+Fremont,+CA&key=AIzaSyDhNOl53GKZUx7LI66vSng7VUWkHTUgVnE`;
-
-  var urlString1 = `https://maps.googleapis.com/maps/api/geocode/json?address=loro+pl,
-+Fremont,+CA&key=AIzaSyDhNOl53GKZUx7LI66vSng7VUWkHTUgVnE`;
-
-  $.getJSON(urlString, function(data)
-  {
-        var p1 = data.results[0].geometry.location;
-
-        $.getJSON(urlString1, function(data)
-        {
-              var p2 = data.results[0].geometry.location;
-              // The map, centered at Uluru
-              var map = new google.maps.Map(
-                document.getElementById('map'), {zoom: 8, center: p1});
-              var marker1 = new google.maps.Marker({position: p1, map: map, title:'In Seo: direct middlemen'});
-              var marker2 = new google.maps.Marker({position: p2, map: map, title:'Gaeyong: direct middlemen'});
-        });
-  });
-
-
-}
-
-</script>
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtSupWCIi2l-ZFk5jzVpI2gucIbFP_oCY&callback=initMap">
-</script>
-
 
 <% include ../../partials/footer %> 

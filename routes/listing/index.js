@@ -24,9 +24,6 @@ router.post("/", function(req, res){
     }
 });
 
-router.get("/show", function(req, res){
-	res.render("listing/tennant/show");
-});
 
 router.get("/:filename", function(req, res){
 	var fileName = req.params.filename;

@@ -16,7 +16,23 @@ var TenantRequestSchema = new mongoose.Schema({
            type: mongoose.Schema.Types.ObjectId,
            ref: "User"
        },
-       username: String
+       username: String,
+       profile_picture: {
+          path: String,
+          caption: String
+       },
+       profile: String,
+      }
+    ],
+
+
+// index 0 wil be the cover photo.
+    num_of_profile_picture_uploaded: {type: Number, default: 0},
+
+    profile_pictures: [
+      { 
+        path: String,
+        caption: String
       }
     ],
 
@@ -67,7 +83,7 @@ var TenantRequestSchema = new mongoose.Schema({
   		year: String
   	},
   	// rental duration in months
-  	rent_duration: Number,
+  	rental_duration: Number,
     
     // maximum range from the desired location
   	maximum_range_in_miles: Number,
@@ -77,18 +93,19 @@ var TenantRequestSchema = new mongoose.Schema({
 
   	rental_preferences: {
   		furnished: { type: String, default: 'off' }, 
+      	kitchen: { type: String, default: 'off' }, 
   		parking: { type: String, default: 'off' },
-  		shared_living_room: { type: String, default: 'off' },
-  		garage: { type: String, default: 'off' },
   		laundry: { type: String, default: 'off' },
   		internet: { type: String, default: 'off' },
   		private_bathroom: { type: String, default: 'off' },
+  		shared_living_room: { type: String, default: 'off' },
   		separate_access:{ type:  String , default: 'off' },
   		pet_allowed: { type: String, default: 'off' },
+      	smoking_allowed: { type: String, default: 'off' },
   		easy_access_public_transport: { type: String, default: 'off' },
-      rent_whole_unit: { type: String, default: 'off' },
-      rental_unit_type: { type: String, default: 'off' },
-      num_of_rooms: { type: Number, default: 1 }
+      	rent_whole_unit: { type: String, default: 'off' },
+      	rental_unit_type: { type: String, default: 'Single House' },
+      	num_of_rooms: { type: Number, default: 1 }
   	},
 
     // more inforamtion on the rental.

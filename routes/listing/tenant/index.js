@@ -63,6 +63,11 @@ router.put("/:list_id", function(req, res){
 					foundListing.num_of_roommates = req.body.num_of_roommates;
 					foundListing.roommate_request = req.body.roommate_request;
 					foundListing.num_of_requested_roommates = req.body.num_of_requested_roommates;
+					
+					if(foundListing.num_of_profile_picture_uploaded!=0)
+					{
+						foundListing.profile_pictures[0].caption = req.body.caption;
+					}
 
 					foundListing.phone = req.body.phone;
 					foundListing.email = req.body.email;
@@ -124,7 +129,11 @@ router.put("/:list_id", function(req, res){
 					}
 					// need to add user ID of roommates if exists.
 					req.flash("success", "Listing posted successfully");
-					res.redirect("/");
+					let preferences = [];
+
+					preprocessingListing(foundListing, preferences);
+
+					res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences}});
 				}
 			}
 
@@ -134,7 +143,7 @@ router.put("/:list_id", function(req, res){
 });
 
 router.get("/show", function(req, res){
-	res.render("listing/tennant/show");
+	res.render("listing/tenant/show");
 });
 
 router.get("/:filename", function(req, res){
@@ -142,5 +151,56 @@ router.get("/:filename", function(req, res){
  	console.log("received file name=" + fileName)
   	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
 });
+
+
+
+function preprocessingListing(listing, preferences)
+{
+
+	if(listing.rental_preferences.furnished!='off')
+	{
+		preferences.push("Furnished");
+	}
+
+	if(listing.rental_preferences.kitchen!='off')
+	{
+		preferences.push("Kitchen");
+	}
+
+	if(listing.rental_preferences.parking!='off')
+	{
+		preferences.push("Parking");
+	}
+
+	if(listing.rental_preferences.internet!='off')
+	{
+		preferences.push("Internet");
+	}
+
+	if(listing.rental_preferences.private_bathroom!='off')
+	{
+		preferences.push("Private Bathroom");
+	}
+
+	if(listing.rental_preferences.separate_access!='off')
+	{
+		preferences.push("Separate Entrance");
+	}
+
+	if(listing.rental_preferences.smoking_allowed!='off')
+	{
+		preferences.push("Smoke Friendly");
+	}
+
+	if(listing.rental_preferences.pet_allowed!='off')
+	{
+		preferences.push("Pet Allowed");
+	}
+
+	if(listing.rental_preferences.easy_access_public_transport!='off')
+	{
+		preferences.push("Easy Access to Public Transport");
+	}
+}
 
 module.exports = router;
