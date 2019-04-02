@@ -19,6 +19,8 @@ var fs               = require("fs");
 var path             = require("path");
 
 var LandlordRequest  = require("./models/listing/landlord_request");
+var TenantRequest  = require("./models/listing/tenant_request");
+
 
 var fileUpload       = require('express-fileupload'); 
 
@@ -86,7 +88,6 @@ app.use("/listing/landlord", landlordRoutes);
 app.use("/listing/tenant", tenantRoutes);
 
 app.use(fileUpload());
-
 
 
 // ISEO: req.files were undefined if it's used in routers.
@@ -157,12 +158,97 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
 });
 
 
+// File operation for tenant
+
+// ISEO: req.files were undefined if it's used in routers.
+// We need to address this problem later, but I will define it inside app.js for now.
+app.post('/listing/tenant/:list_id/file_upload', function(req, res) {
+
+  console.log("file upload: listing_id: " + req.params.list_id);
+
+  TenantRequest.findById(req.params.list_id, function(err, foundListing){
+    if (Object.keys(req.files).length == 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+
+    console.log("Found listing. listing_id=" + req.params.list_id);
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.file_name;
+    let list_id = req.params.list_id;
+    let picPath = "./public/user_resources/pictures/tenant/"+list_id+"_"+sampleFile.name;
+
+    console.log("picPath=" + picPath);
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(picPath, function(err) {
+      if (err)
+        return res.status(500).send(err);
+
+      console.log("ISEO: Successful File upload");
+      var picture = {path: picPath, caption: req.body.caption};
+
+      // We will allow only 1 photo for now, and the same array entry will be used.
+      if(foundListing.profile_pictures.length==0)
+      {
+        foundListing.profile_pictures.push(picture);
+      } 
+      else
+      {
+        foundListing.profile_pictures[0] = picture;
+      }
+
+      foundListing.num_of_profile_picture_uploaded =  foundListing.num_of_profile_picture_uploaded + 1;
+      foundListing.save();
+
+      res.send('File uploaded!');
+    });
+  });
+
+});
+
+app.post('/listing/tenant/:list_id/file_delete', function(req, res) {
+  console.log("tenant, file_delete is called");
+
+  TenantRequest.findById(req.params.list_id, function(err, foundListing){
+    try {
+      
+      console.log("File path=" + foundListing.profile_pictures[0].path );
+      fs.unlinkSync(foundListing.profile_pictures[0].path);
+      
+      foundListing.profile_pictures[0].path = "";
+      foundListing.num_of_profile_picture_uploaded = foundListing.num_of_profile_picture_uploaded - 1;
+      foundListing.save();
+
+      res.send('File Deleted!');
+
+    }  catch(err){
+      console.error(err);
+    }
+  });
+
+});
+
+
 app.get("/public/user_resources/pictures/:filename", function(req, res){
   var fileName = req.params.filename;
-  console.log("received file name=" + fileName)
+  console.log("picture: received file name=" + fileName)
     res.sendFile(path.join(__dirname, `/public/user_resources/pictures/${fileName}`));
 });
 
+
+app.get("/public/user_resources/pictures/tenant/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("picture: received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/public/user_resources/pictures/tenant/${fileName}`));
+});
+
+
+app.get("/scripts/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("script: received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/scripts/${fileName}`));
+});
 
 
 app.listen(process.env.PORT, process.env.IP, function(){
