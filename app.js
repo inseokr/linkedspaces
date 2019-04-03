@@ -183,7 +183,10 @@ app.post('/listing/tenant/:list_id/file_upload', function(req, res) {
     // Use the mv() method to place the file somewhere on your server
     sampleFile.mv(picPath, function(err) {
       if (err)
+      {
+        console.log("mv operation failed with error code="+err);
         return res.status(500).send(err);
+      }
 
       console.log("ISEO: Successful File upload");
       var picture = {path: picPath, caption: req.body.caption};
