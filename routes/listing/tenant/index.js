@@ -153,7 +153,7 @@ router.put("/:list_id", function(req, res){
 
 					preprocessingListing(foundListing, preferences);
 
-					res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences}, list_id: 0});
+					res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences, list_id: 0});
 				}
 			}
 
