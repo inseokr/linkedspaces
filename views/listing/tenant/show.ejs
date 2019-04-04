@@ -206,14 +206,14 @@
         	</ul>
       	</div>
 
-      	 <div style="margin-top:30px;">
-
-	  		<!--<span style="display:none"><input type="text" value="Hello World" id="post_link"></span>-->
+      	<%if(listing_info.list_id!='undefined') {%>
+      	<div style="margin-top:30px;">
 	  		<input type="text" value="Hello World" id="post_link" style="color:white; border-style:none;">
 
 	  		<!-- The button used to copy the text -->
 	  		<button onclick="copy_posting_link('<%=`${listing_info.list_id}`%>')"><span class="sub_title">Copy link of this posting</span></button>
-	  	 <div>
+	  	<div>
+	  	<%}%>
 
 
   	  </div>
@@ -232,10 +232,6 @@ function copy_posting_link(listing_id) {
 
   var currentURL = document.URL;
   var hostSection = currentURL.split("listing")[0];
-
-  console.log("currentURL="+currentURL);
-
-  console.log("hostSection="+hostSection);
 
   copyText.value = `${hostSection}listing/tenant/${listing_id}/show`;
 
