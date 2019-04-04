@@ -8,7 +8,21 @@ var UserSchema = new mongoose.Schema({
 	password:   String,
 	email:      String,
 	gender:     String,
-	birthdate:  Date
+	birthdate:  Date,
+
+	tenant_listing: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "TenantRequest"
+		}
+	},
+
+	landlord_listing: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "LandlordRequest"
+		}
+	}
 });
 
 UserSchema.plugin(passportLocalMongoose)

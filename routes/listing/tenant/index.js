@@ -27,9 +27,29 @@ router.post("/new", function(req, res){
         newListing.maximum_range_in_miles = req.body.maximum_range_in_miles;
         newListing.rental_budget = req.body.rental_budget;
 
-        newListing.save();
+        newListing.save(function(err){
+
+        if(err) {
+        	console.log("New Listing Save Failure");
+        	res.render("/");
+        }
+
+        User.findById(req.user._id, function(err, foundUser){
+
+        	if(err)
+        	{
+        		console.log("User Not found with given User");
+        		return;
+        	}
+
+        	foundUser.tenant_listing.id = newListing._id;
+        	foundUser.save();
+        });
 
 		res.render("listing/tenant/new_step2", {listing_id: newListing._id});
+
+        });
+
 	}
 });
 
@@ -142,9 +162,65 @@ router.put("/:list_id", function(req, res){
 	}
 });
 
-router.get("/show", function(req, res){
-	res.render("listing/tenant/show");
+router.get("/:list_id/show", function(req, res){
+
+	// Get tenant listing.
+    TenantRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+
+    	let preferences = [];
+
+		preprocessingListing(foundListing, preferences);
+
+		res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences, list_id: req.params.list_id}});
+
+	});
 });
+
+router.get("/show", function(req, res){
+
+	// Get tenant listing.
+	User.findById(req.user._id, function(err, foundUser){
+        if(err)
+        {
+        	console.log("User Not found with given User");
+        	return;
+        }
+
+        TenantRequest.findById(foundUser.tenant_listing.id, function(err, foundListing){
+        	if(err)
+        	{
+        		console.log("Listing not found");
+        		return;
+        	}
+
+        	let preferences = [];
+
+			preprocessingListing(foundListing, preferences);
+
+			res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences, list_id: foundUser.tenant_listing.id}});
+        });
+	});
+});
+
+
+router.get("/:list_id/show/:filename", function(req, res){
+	var fileName = req.params.filename;
+ 	console.log("received file name=" + fileName)
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
+});
+
+
+router.get("/:list_id/:filename", function(req, res){
+	var fileName = req.params.filename;
+ 	console.log("received file name=" + fileName)
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
+});
+
 
 router.get("/:filename", function(req, res){
 	var fileName = req.params.filename;
