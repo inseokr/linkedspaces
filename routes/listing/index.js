@@ -20,7 +20,7 @@ router.post("/", function(req, res){
         
     } else 
     {
-    	res.render("listing/tenant/new");
+    	res.render("listing/tenant/new", {listing_info: { listing: null, list_id: null}});
     }
 });
 

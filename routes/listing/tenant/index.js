@@ -1,10 +1,11 @@
-var express = require("express");
-var router  = express.Router();
-var passport = require("passport");
-var User = require("../../../models/user");
+var express       = require("express");
+var router        = express.Router();
+var passport      = require("passport");
+var User 	      = require("../../../models/user");
 var TenantRequest = require("../../../models/listing/tenant_request");
-var node = require("deasync");
-var path = require("path");
+var node          = require("deasync");
+var path          = require("path");
+var fs            = require("fs");
 
 node.loop = node.runLoopOnce;
 
@@ -49,8 +50,31 @@ router.post("/new", function(req, res){
 		res.render("listing/tenant/new_step2", {listing_id: newListing._id});
 
         });
-
 	}
+});
+
+
+router.post("/:listing_id/new", function(req, res){
+
+	TenantRequest.findById(req.params.listing_id, function(err, foundListing){
+
+	    foundListing.location = req.body.location;
+	    foundListing.move_in_date = req.body.move_in_date;
+	    foundListing.rental_duration = req.body.rental_duration;
+	    foundListing.maximum_range_in_miles = req.body.maximum_range_in_miles;
+	    foundListing.rental_budget = req.body.rental_budget;
+
+    	foundListing.save(function(err){
+
+    		if(err) {
+		    	console.log("New Listing Save Failure");
+    			res.render("/");
+    		}
+
+			res.render("listing/tenant/new_step2", {listing_id: req.params.listing_id});
+    	});
+
+	});
 });
 
 // the route name may need to be revised.
@@ -192,18 +216,53 @@ router.get("/show", function(req, res){
         }
 
         TenantRequest.findById(foundUser.tenant_listing.id, function(err, foundListing){
-        	if(err)
+        	if(err || foundListing == null)
         	{
-        		console.log("Listing not found");
+        		req.flash("error", "No Active Listing Found");
+        		res.redirect("/");
         		return;
         	}
 
-        	let preferences = [];
-
-			preprocessingListing(foundListing, preferences);
-
-			res.render("listing/tenant/show", {listing_info: { listing: foundListing, rentalPreferences: preferences, list_id: foundUser.tenant_listing.id}});
+			// need to change to support array of list instead
+			res.render("listing/tenant/show_list", {listing_info: { listing: foundListing, list_id: foundUser.tenant_listing.id}});
         });
+	});
+});
+
+
+router.get("/:list_id/edit", function(req, res){
+	// Get tenant listing.
+    TenantRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+		res.render("listing/tenant/new", {listing_info: { listing: foundListing, list_id: req.params.list_id}});
+	});
+});
+
+router.delete("/:list_id", function(req, res){
+	// Clean all resources such as pictures.
+
+	// Get tenant listing.
+    TenantRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+
+    	try {
+    		fs.unlinkSync(foundListing.profile_pictures[0].path);
+	    } catch(err){
+	    	console.error(err);	
+	    }
+
+		foundListing.remove();	    
+
+    	req.flash("success", "Listing Deleted Successfully");
+		res.redirect("/");
 	});
 });
 

@@ -26,7 +26,11 @@
     </div>
   </div>
 
+<%if(listing_info.listing==null) {%>
   <form role="form" action="/listing/tenant/new" method="POST">
+<%} else {%>
+  <form role="form" action="<%=`/listing/tenant/${listing_info.list_id}/new`%>" method="POST">
+<%}%>
     <div class="row setup-content" id="step-1">
       <div class="col-md-6 offset-md-3">
         <div class="col-md-12">      
