@@ -47,7 +47,7 @@ router.post("/new", function(req, res){
         	foundUser.save();
         });
 
-		res.render("listing/tenant/new_step2", {listing_id: newListing._id});
+		res.render("listing/tenant/new_step2", {listing_info: { listing: newListing, listing_id: newListing._id}});
 
         });
 	}
@@ -71,7 +71,7 @@ router.post("/:listing_id/new", function(req, res){
     			res.render("/");
     		}
 
-			res.render("listing/tenant/new_step2", {listing_id: req.params.listing_id});
+			res.render("listing/tenant/new_step2", {listing_info: { listing: foundListing, listing_id: req.params.listing_id}});
     	});
 
 	});
@@ -98,7 +98,7 @@ router.put("/:list_id", function(req, res){
 
 					foundListing.save();
 
-					res.render("listing/tenant/new_step3", {listing_id:req.params.list_id});
+					res.render("listing/tenant/new_step3", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 				} else {
 					foundListing.rental_description = req.body.rental_description;
 
@@ -238,7 +238,7 @@ router.get("/:list_id/edit", function(req, res){
     		console.log("Listing not found");
     		return;
     	}
-		res.render("listing/tenant/new", {listing_info: { listing: foundListing, list_id: req.params.list_id}});
+		res.render("listing/tenant/new", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
 
