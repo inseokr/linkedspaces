@@ -4,27 +4,7 @@
 <link rel="stylesheet" href="/stylesheets/step_wizard.css">
 
 
-<script>
-<%if(listing_info.listing!=null){%>
 
-  var furnished = "<%=listing_info.listing.rental_preferences.furnished%>";
-  console.log("ISEO: data exist"+furnished);
-  
-  // Rental Preferences
-  $('#furnished').val("<%=listing_info.listing.rental_preferences.furnished%>");
-  $('#kitchen').val("<%=listing_info.listing.rental_preferences.kitchen%>");
-  $('#parking').val("<%=listing_info.listing.rental_preferences.parking%>");
-  $('#laundry').val("<%=listing_info.listing.rental_preferences.laundry%>");
-  $('#internet').val("<%=listing_info.listing.rental_preferences.internet%>");
-  $('#private_bathroom').val("<%=listing_info.listing.rental_preferences.private_bathroom%>");
-  $('#shared_living_room').val("<%=listing_info.listing.rental_preferences.shared_living_room%>");
-  $('#separate_access').val("<%=listing_info.listing.rental_preferences.separate_access%>");
-  $('#pet_allowed').val("<%=listing_info.listing.rental_preferences.pet_allowed%>");
-  $('#smoking_allowed').val("<%=listing_info.listing.rental_preferences.smoking_allowed%>");
-  $('#easy_access_public_transport').val("<%=listing_info.listing.rental_preferences.easy_access_public_transport%>");
-  $('#rent_whole_unit').val("<%=listing_info.listing.rental_preferences.rent_whole_unit%>");
-<%}%>
-</script>
 
 <div class="container" style="text-align: center; margin-bottom: 10px">
   <h3>Posting Rental Request</h3>  
@@ -57,7 +37,6 @@
             <h5> Rental Preferences</h5>
           </div>
           <hr>
-
           <div class="p-2">
             <div class="col form-check-inline listing-check-box" style="margin-left: 5px;">
               <label class="switch switch-sm" style="margin-bottom: auto">
@@ -210,7 +189,22 @@
   </form>
 </div>
 
+<script>
+<%if(listing_info.listing!=null){%>
+  <% var preferences = 
+      ["furnished", "kitchen", "parking", "laundry", "internet", "private_bathroom", 
+       "shared_living_room", "separate_access", "pet_allowed", "smoking_allowed",
+       "easy_access_public_transport", "rent_whole_unit"
+      ];%>
 
-
-
+  <%for(var prefIndex=0; prefIndex<preferences.length; prefIndex++) {%>
+    var idName = "#<%=preferences[prefIndex]%>";
+    var value = "<%=eval('listing_info.listing.rental_preferences.' + preferences[prefIndex])%>";
+    if(value=="on")
+    {
+      $(idName).prop("checked", true);
+    }
+  <%}%>
+<%}%>
+</script>
 <% include ../../partials/footer %>
