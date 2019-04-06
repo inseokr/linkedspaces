@@ -90,6 +90,12 @@ app.use("/listing/tenant", tenantRoutes);
 app.use(fileUpload());
 
 
+app.get('/drag_drop', function(req, res){
+res.render("drag_drop_demo");
+
+});
+
+
 // ISEO: req.files were undefined if it's used in routers.
 // We need to address this problem later, but I will define it inside app.js for now.
 app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
