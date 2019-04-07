@@ -4,8 +4,6 @@
 <link rel="stylesheet" href="/stylesheets/step_wizard.css">
 
 
-
-
 <div class="container" style="text-align: center; margin-bottom: 10px">
   <h3>Posting Rental Request</h3>  
 </div>
@@ -15,22 +13,19 @@
 <div class="stepwizard offset-md-3">
     <div class="stepwizard-row setup-panel">
       <div class="stepwizard-step">
-        <a class="btn btn-outline-secondary btn-circle" href="#step-1" type="button">1</a>
-        <p>Step 1</p>
+        <a class="btn btn-outline-secondary btn-circle" href='<%="/listing/tenant/"+listing_info.listing_id+"/step1"%>' type="button">1</a>
       </div>
       <div class="stepwizard-step">
-        <a disabled="disabled" class="btn btn-primary btn-circle" href="#step-2" type="button">2</a>
-        <p>Step 2</p>
+        <a disabled="disabled" class="btn btn-primary btn-circle" href='<%="/listing/tenant/"+listing_info.listing_id+"/step2"%>' type="button">2</a>
       </div>
       <div class="stepwizard-step">
-        <a disabled="disabled" class="btn btn-outline-secondary btn-circle" href="#step-3" type="button">3</a>
-        <p>Step 3</p>
+        <a disabled="disabled" class="btn btn-outline-secondary btn-circle" href='<%="/listing/tenant/"+listing_info.listing_id+"/step3"%>' type="button">3</a>
       </div>
     </div>
   </div>
   
   <form role="form" action="/listing/tenant/<%=listing_info.listing_id%>?_method=PUT" method="post">
-    <div class="row setup-content" id="step-2">
+    <div class="row setup-content" id="step-2" style="margin-top:30px;">
       <div class="col-md-6 offset-md-3">
         <div class="col-md-12">
           <div style="text-align:center">
@@ -180,7 +175,7 @@
             </div>
             <hr>
             <div style="margin-top: 40px">
-              <button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="exit">Prev</button>
+              <a href='<%="/listing/tenant/"+listing_info.listing_id+"/step1"%>' class="btn btn-success btn-lg float-left">Prev</a>
               <button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="step#2">Next</button>
             </div>
         </div>

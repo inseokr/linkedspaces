@@ -113,11 +113,11 @@ var TenantRequestSchema = new mongoose.Schema({
 
     // want roomate?
     roommate_request: String,
-    num_of_requested_roommates: Number,
+    num_of_requested_roommates: { type: Number, default: 0},
 
     // already have roomnates?2
     group_rental: String,
-    num_of_roommates: Number,
+    num_of_roommates: { type: Number, default: 0},
 
     phone: String,
     email: String

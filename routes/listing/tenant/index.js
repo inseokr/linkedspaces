@@ -186,6 +186,40 @@ router.put("/:list_id", function(req, res){
 	}
 });
 
+router.get("/:list_id/step1", function(req,res){
+	TenantRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+        res.render("listing/tenant/new", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
+
+router.get("/:list_id/step2", function(req,res){
+	TenantRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+        res.render("listing/tenant/new_step2", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
+router.get("/:list_id/step3", function(req,res){
+	TenantRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+        res.render("listing/tenant/new_step3", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
 router.get("/:list_id/show", function(req, res){
 
 	// Get tenant listing.
