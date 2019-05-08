@@ -13,6 +13,7 @@ var express          = require("express"),
 // routes
 var indexRoutes      = require("./routes/index");
 var listingRoutes    = require("./routes/listing/index");
+var mynetworkRoutes  = require("./routes/mynetwork/index");
 var landlordRoutes   = require("./routes/listing/landlord/index");
 var tenantRoutes     = require("./routes/listing/tenant/index");
 var fs               = require("fs");
@@ -25,6 +26,8 @@ var TenantRequest  = require("./models/listing/tenant_request");
 var fileUpload       = require('express-fileupload'); 
 
 var facebook         = require('./facebook.js');
+
+var nodemailer = require('nodemailer');
 
 var url = process.env.DATABASEURL || "mongodb://localhost/Linkedspaces";
 mongoose.connect(url,  { useNewUrlParser: true });
@@ -84,16 +87,58 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/listing", listingRoutes);
+app.use("/mynetwork", mynetworkRoutes);
 app.use("/listing/landlord", landlordRoutes);
 app.use("/listing/tenant", tenantRoutes);
 
 app.use(fileUpload());
 
+// ISEO-TBD: test e-mail
+/*
+// TBD: test email
+// <note> we should enable "Less secure app access"
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'inseo.kr@gmail.com',
+    pass: '!newintern0320'
+  }
+});
+
+var mailOptions = {
+  from: 'inseo.kr@gmail.com',
+  to: 'in.seo@spirent.com',
+  subject: 'Sending Email using Node.js',
+  text: '<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "EmailMessage",
+  "potentialAction": {
+    "@type": "ConfirmAction",
+    "name": "Approve Expense",
+    "handler": {
+      "@type": "HttpActionHandler",
+      "url": "https://myexpenses.com/approve?expenseId=abc123"
+    }
+  },
+  "description": "Approval request for John's $10.13 expense for office supplies"
+}
+</script>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});*/
 
 app.get('/drag_drop', function(req, res){
-res.render("drag_drop_demo");
+res.render("drag_drop_demo_v1");
 
 });
+
 
 
 // ISEO: req.files were undefined if it's used in routers.

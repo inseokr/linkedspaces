@@ -4,11 +4,34 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<link rel="stylesheet" href="/stylesheets/landlord_show_style.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/listing_style.css">
+<style>
+.move-cursor {
+  cursor: move;
+}
+
+.grab-cursor {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+.box {
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 301px;
+  height: 101px;
+  background-color: #54cfb3;
+  padding-top: 70px;
+}
+</style>
 
 <div class="row">
 
-  <div class="col-3" style="height: 500px; margin-left: 30px; border:none;">
+  <div class="col-3" style="height: 500px; margin-left: 30px; border:none;" id="dragMe">
       <div>
       <img src="/public/user_resources/pictures/tenant/<%=listing_info.listing.profile_pictures[0].path.split("/")[listing_info.listing.profile_pictures[0].path.split("/").length-1]%>" align="right" style="width:100%; max-height:100%; object-fit: cover; object-position: 100% 0%;">
       </div>
@@ -38,6 +61,34 @@
 </div>
 
 <script>
+
+grid_size = 10;
+
+$(" #dragMe ")
+  .draggable({ grid: [ grid_size, grid_size ] })
+
+  .resizable({ grid: grid_size * 2 })
+  
+  .on("mouseover", function(){
+    $( this ).addClass("move-cursor")
+  })
+
+  .on("mousedown", function(){
+    $( this )
+      .removeClass("move-cursor")
+      .addClass("grab-cursor")
+      .addClass("opac");
+  
+    $(" .text ").hide();
+  
+  })
+
+  .on("mouseup", function(){
+    $( this )
+      .removeClass("grab-cursor")
+      .removeClass("opac")
+      .addClass("move-cursor");
+  });
 </script>
 
 

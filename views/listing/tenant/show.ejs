@@ -4,7 +4,10 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<link rel="stylesheet" href="/stylesheets/landlord_show_style.css">
+<link rel="stylesheet" href="/stylesheets/listing_style.css">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
 
 <div class="row">
   <div class="col-3" style="height: 600px; margin-left: 30px; border:none;">
@@ -205,22 +208,38 @@
           		<li> E-mail: <%=listing_info.listing.email%> </li>
         	</ul>
       	</div>
+    </div>
 
-      	<%if(listing_info.list_id!=0) {%>
-      	<div style="margin-top:30px;">
-	  		<input type="text" value="Hello World" id="post_link" style="color:white; border-style:none;">
+  </div>
 
-	  		<!-- The button used to copy the text -->
-	  		<button onclick="copy_posting_link('<%=`${listing_info.list_id}`%>')"><span class="sub_title">Copy link of this posting</span></button>
-	  	<div>
-	  	<%}%>
+      <%if(listing_info.list_id!=0) {%>
+        <div style="margin-top:30px;">
+        <input type="text" value="Hello World" id="post_link" style="color:white; border-style:none;">
 
-
-  	  </div>
+        <!-- The button used to copy the text -->
+        <div class="d-flex jjustify-content-start">
+          <button class="btn btn-primary" onclick="copy_posting_link('<%=`${listing_info.list_id}`%>')">Copy link of this posting</button>
+          <button class="btn btn-info" style="margin-left:70px !important;">Send listing to friends</button>
+          <button class="btn btn-danger" style="margin-left:70px !important;">Check status</button>
+        <div>
+        </div>
+      <%}%>
 
 	</div>
 
   <hr>
+
+<!-- ISEO-TBD: how to show that there are new messages
+  <a class="fa fa-globe">
+  <span class="fa fa-comment"></span>
+  <span class="num">2</span>
+  </a> 
+-->
+  <a class="fa fa-globe">
+  <span class="fa fa-comment"></span>
+  <span class="num">2</span>
+  </a> 
+
 </div>
 
 <script>
@@ -240,6 +259,9 @@ function copy_posting_link(listing_id) {
 
   /* Copy the text inside the text field */
   document.execCommand("copy");
+
+  // data is not copied if I disable display.
+  //${#post_link}.css("display", "none");
 } 
 </script>
 

@@ -62,3 +62,20 @@
     content:"\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
     text-decoration:line-through;   
 }
+
+
+span.fa-comment {
+  position: relative;
+  font-size: 1.4em !important;
+  top: -8px;
+  color: light-blue !important;
+  right: 5px;
+}
+
+span.num {
+  position: relative;
+  font-size: 0.7em !important;
+  top: -12px !important;
+  color: #fff;
+  right:24px !important;
+}

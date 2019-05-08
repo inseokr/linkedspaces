@@ -11,9 +11,9 @@
   <style>
 
   .tilt {
-    transform: rotate(3deg);
-    -moz-transform: rotate(3deg);
-    -webkit-transform: rotate(3deg);
+    transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
   }
 
   body {
@@ -54,6 +54,9 @@
 
   function onPageLoad()
   {
+    // connectWith:A selector of other sortable elements that the items from this list should be connected to. This is a one-way relationship, if you want the items to be connected in both directions, the connectWith option must be set on both sortable elements.
+    // handle: specify the element that will be draggable.
+    // cancel: Prevents sorting if you start on elements matching the selector.
     $( ".column" ).sortable({
       connectWith: ".column",
       handle: ".portlet-header",
@@ -66,15 +69,21 @@
       }
     });
 
+
+    // This is not directly related to drag/drop feature, but just a look at feel.  
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
       .find( ".portlet-header" )
         .addClass( "ui-widget-header ui-corner-all" )
         .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
 
+    // This will hide or unhide contents.
     $( ".portlet-toggle" ).click(function() {
       var icon = $( this );
+      // add or delete upon clicking
       icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+      // closest: return the first ancester
+      // toggle: it will show or hide.
       icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
     });
   }
@@ -122,7 +131,10 @@
 
 
 </body>
+
 <script>
+
+// this script will be loaded after page load.
 $( ".column" ).sortable({
     connectWith: ".column",
     handle: ".portlet-header",
@@ -156,5 +168,6 @@ function tilt_direction(item) {
     $("html").bind("mousemove", move_handler);
     item.data("move_handler", move_handler);
 }  
+
 </script>
 </html>

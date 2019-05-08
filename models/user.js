@@ -10,6 +10,17 @@ var UserSchema = new mongoose.Schema({
 	gender:     String,
 	birthdate:  Date,
 
+	direct_friends: {
+		friend: {
+			id: {
+		     	type: mongoose.Schema.Types.ObjectId,
+		     	ref: "User"
+		    },
+		    name: String,
+		    email: String
+		}
+	},
+
 	tenant_listing: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,

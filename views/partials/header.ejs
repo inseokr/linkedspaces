@@ -10,8 +10,43 @@
   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	    <link rel="stylesheet" href="/stylesheets/main.css">
-  	    <link rel="stylesheet" href="/stylesheets/bootstrap_switch.css">
+  	  <link rel="stylesheet" href="/stylesheets/bootstrap_switch.css">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	</head>
+
+  <style>
+span.fa-comment {
+    position: relative;
+    font-size: 1em;
+    top: -8px;
+    color: red;
+    right: 5px;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a.fa-globe {
+    position: relative;
+    font-size: 2em;
+    color: grey;
+    cursor: pointer;
+}
+
+span.num {
+    position: relative;
+    font-size: 0.5em;
+    top: -10px;
+    color: #fff;
+    right:19px;
+}
+</style>
 
 	<body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -20,7 +55,7 @@
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 	  <div class="collapse navbar-collapse" id="linkedSpacesNavbarToggler">
-	    <a class="navbar-brand" href="#">LinkedSpaces</a>
+	    <a class="navbar-brand" href="/">LinkedSpaces</a>
 	    <ul class="navbar-nav ml-auto">
 	      <% if(!currentUser){ %>
 	      <li class="nav-item">
@@ -34,15 +69,19 @@
 	        <a class="nav-link" href="/signup" >Sign up</a>
 	      </li>
 	      <% } else { %>
-	      	<li class="nav-item"><a class="nav-link" href="/listing">Post listing</a></li>
+          <li class="nav-item">
+              <a class="nav-link" href="/mynetwork">
+                  My Network 
+                  <span class="fa fa-comment"></span>
+                  <span class="num">2</span>
+              </a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/listing">Post listing</a></li>
           <li class="nav-item"><a class="nav-link" href="/listing/tenant/show">My Active Listing</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listing/tenant/tenant_dashboard">Dashboard</a></li>
 	      	<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+
 	      <% } %>
-
-
-	      <li class="nav-item">
-	        <a class="nav-link" href="/contacts">Contacts</a>
-	      </li>
 	    </ul>
 	  </div>
 	</div>

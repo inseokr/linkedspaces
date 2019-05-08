@@ -186,6 +186,10 @@ router.put("/:list_id", function(req, res){
 	}
 });
 
+router.get("/tenant_dashboard", function(req,res){
+	res.render("listing/tenant/tenant_dashboard");
+});
+
 router.get("/:list_id/step1", function(req,res){
 	TenantRequest.findById(req.params.list_id, function(err, foundListing){
 		if(err)
