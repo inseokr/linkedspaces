@@ -6,63 +6,24 @@
 	<span style="text-align:center;"><h3> Friends Recommendation </h3></span>
 	<hr>
 	<div class="d-flex justify-content-between">
+	<%
+		var x;
+		for (x in friends_list) {%>
 
 		<div class="network_board">
 			<div class="profile_picture">
-				<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src="../public/user_resources/pictures/Peter.jpg">
+				<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=friends_list[x].profile_picture%>'>
 			</div>
 			<div class="friend_information">
-				<span class="friend_name">Peter Bae</span>
+				<span class="friend_name">'<%=friends_list[x].name%>'</span>
 				<br>
-				<span class="friend_location">Cupertino, CA</span>
+				<span class="friend_location">'<%=friends_list[x].address.city+","+friends_list[x].address.state%>'</span>
 			</div>
 			<div class="action">
 				<button class="btn btn-info">Connect</button>
 			</div>
 		</div>
-
-		<div class="network_board">
-			<div class="profile_picture">
-				<img class="img-responsive center rounded-circle" style="max-width: 90%; margin-top:10px;" src="../public/user_resources/pictures/Chinh - Vy.jpg">
-			</div>
-			<div class="friend_information">
-				<span class="friend_name">Chinh Le</span>
-				<br>
-				<span class="friend_location">San Jose, CA</span>
-			</div>
-			<div class="action">
-				<button class="btn btn-info">Connect</button>
-			</div>
-		</div>
-
-		<div class="network_board">
-			<div class="profile_picture">
-				<img class="img-responsive center rounded-circle" style="max-width: 90%; margin-top:10px;" src="../public/user_resources/pictures/inseo_profile.jpg">
-			</div>
-			<div class="friend_information">
-				<span class="friend_name">In Seo</span>
-				<br>
-				<span class="friend_location">Fremont, CA</span>
-			</div>
-			<div class="action">
-				<button class="btn btn-info">Connect</button>
-			</div>
-		</div>
-
-		<div class="network_board">
-			<div class="profile_picture">
-				<img class="img-responsive center rounded-circle" style="max-width: 90%; margin-top:10px;" src="../public/user_resources/pictures/Jason.jpg">
-			</div>
-			<div class="friend_information">
-				<span class="friend_name">Jason Kim</span>
-				<br>
-				<span class="friend_location">Los Altos, CA</span>
-			</div>
-			<div class="action">
-				<button class="btn btn-info">Connect</button>
-			</div>
-		</div>
-
+	<%}%>
 	</div>
 </div>
 
