@@ -72,7 +72,7 @@
 <script>
 	<%if(listing_info.listing!=null){%>
 		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
-		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>");
+		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>").change();
 	<%}%>
 	function handleOnChangeNumberOfBedrooms(elememtId){
 		var numOfRooms = elememtId.value;

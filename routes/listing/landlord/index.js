@@ -26,8 +26,6 @@ router.post("/new", function(req, res){
         newListing.maximum_range_in_miles = req.body.maximum_range_in_miles;
         newListing.rental_budget = req.body.rental_budget;
 
-        newListing.num_of_bedrooms = 0;
-
         newListing.save(function(err){
 
         if(err){
@@ -158,13 +156,15 @@ function handleStep1(req, res, foundListing){
 function handleStep2(req, res, foundListing){
 	// this should be a number instead?
 	foundListing.num_of_bedrooms = req.body.num_of_bedrooms;
-
 	for(var bedIndex=0; bedIndex<=foundListing.num_of_bedrooms; bedIndex++){
 		var curBedRoom = eval(`req.body.bedroom_${bedIndex}`);
 		// I want this...
 		// foundListing.bedrooms.push(req.body.bedroom_1);
 		// So curBedRoom should contain not just the name but the structure... let's see if it works.
-		foundListing.bedrooms.push(curBedRoom);
+		console.log("TEST");
+		console.log(curBedRoom);
+		foundListing.bedrooms[bedIndex] = curBedRoom;
+		// foundListing.bedrooms.push(curBedRoom);
 
 		foundListing.num_of_total_guests = foundListing.num_of_total_guests + Number(curBedRoom.num_of_guests_bedroom);
 		var numOfBathRooms = parseFloat(curBedRoom.num_of_bathrooms);

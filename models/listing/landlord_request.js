@@ -58,7 +58,7 @@ var LandlordRequestSchema = new mongoose.Schema({
     },
 
     // bedroom information
-    num_of_bedrooms: Number, // TBD: should be Number instead?
+    num_of_bedrooms: {type: Number, default: 0}, // TBD: should be Number instead?
 
     // TBD
     bedrooms: [
@@ -67,7 +67,7 @@ var LandlordRequestSchema = new mongoose.Schema({
         bedding_provided: { type: String, default: 'off' }, 
         num_of_bathrooms: { type: String, default: '0'},
 
-        num_of_sinlge_bed_bedroom: { type: String, default: '0'},
+        num_of_single_bed_bedroom: { type: String, default: '0'},
         num_of_double_bed_bedroom: { type: String, default: '0'},
         num_of_queen_bed_bedroom: { type: String, default: '0'},
         num_of_sofa_bed_bedroom: { type: String, default: '0'},

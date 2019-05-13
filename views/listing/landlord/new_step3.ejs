@@ -16,6 +16,7 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="col-md-12">
 					<div style="text-align:center">
+						<h5 class="testing">test</h5>
 						<h5> <%=title%></h5>
 					</div>
 					<hr>
@@ -113,5 +114,11 @@
 		</div>
 	</form>
 </div>
+
+<script>
+	<%if(listing_info.listing!=null){%>
+		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
+	<%}%>
+</script>
 
 <% include ../../partials/footer %>
