@@ -16,7 +16,7 @@ router.post("/", function(req, res){
 
     if(req.body.post_type=="landlord")
     {
-        res.render("listing/landlord/new");
+        res.render("listing/landlord/new", {listing_info: { listing: null, listing_id: null}});
         
     } else 
     {

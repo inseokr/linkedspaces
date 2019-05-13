@@ -8,81 +8,87 @@
 <!-- totalSteps and curr_step should be provided -->
 	<%var curr_step=2; 
 	  var totalSteps=6;
-	  var action_url="/listing/landlord/"+listing_id+"?_method=PUT";
-	  var action_method="POST";
 	  var title = "Bedrooms and bathrooms"%> 
-	<% include ../../partials/stepwizard_header %>
-	<!-- how many bedrooms & guests to accomodate -->
-	<div class="d-flex flex-column">
-		<div class="p-2">
-			<h5> How many bedrooms?</h5> 
-			<select class="form-control" required="required" name="num_of_bedrooms" id="num_of_bedrooms" placeholder="Studio" style="width:30%" onchange="handleOnChangeNumberOfBedrooms(this)">
-			<% var numOfRooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"];
-			   numOfRooms.forEach(function(num_of_rooms, cur_index) { %>
-			   	<option value=<%=cur_index%>><%=num_of_rooms%></option>
-			   	<%}); %>
-			</select>
+	<% include ../../partials/stepwizard_v2 %>
+	
+	<form role="form" action="/listing/landlord/<%=listing_info.listing_id%>?_method=PUT" method="post">
+		<div class="row setup-content" id="step-<%=curr_step%><" style="margin-top:40px;">
+			<div class="col-md-6 offset-md-3">
+				<div class="col-md-12">
+					<div style="text-align:center">
+						<h5 class="testing">test</h5>
+						<h5><%=title%></h5>
+					</div>
+					<hr>
+
+					<!-- how many bedrooms & guests to accommodate -->
+					<div class="d-flex flex-column">
+						<div class="p-2">
+							<h5> How many bedrooms?</h5> 
+							<select class="form-control" required="required" name="num_of_bedrooms" id="num_of_bedrooms" placeholder="Studio" style="width:30%" onchange="handleOnChangeNumberOfBedrooms(this)">
+							<% var numOfRooms = ["Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"];
+							   numOfRooms.forEach(function(num_of_rooms, cur_index) { %>
+							   	<option value=<%=cur_index%>><%=num_of_rooms%></option>
+							   	<%}); %>
+							</select>
+						</div>
+						<!-- collect information on bedrooms -->
+						
+						<div class="p2">
+							<div id="studio">
+								<% var bedroom_index = 0; %>
+								<% include ./bedroom_form %>
+							</div>
+							<div id="bedroom#1" >
+								<% var bedroom_index = 1; %>
+								<% include ./bedroom_form %>
+							</div>
+							<div id="bedroom#2" >
+								<% var bedroom_index = 2; %>
+								<% include ./bedroom_form %>
+							</div>
+							<div id="bedroom#3" >
+								<% var bedroom_index = 3; %>
+								<% include ./bedroom_form %>
+							</div>
+							<div id="bedroom#4" >
+								<% var bedroom_index = 4; %>
+								<% include ./bedroom_form %>
+							</div>
+						</div>
+					</div>
+
+					<!-- check if the room's furnished -->
+					<div style="margin-top: 40px">
+              			<a href='<%="/listing/landlord/"+listing_info.listing_id+"/step1"%>' class="btn btn-success btn-lg float-left">Prev</a>
+              			<button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" value="step#2">Next</button>
+            		</div>
+				</div>
+			</div>
 		</div>
-		<!-- collect information on bedrooms -->
-		
-		<div class="p2">
-
-			<div id="studio">
-				<% var bedroom_index = 0; %>
-				<% include ./bedroom_form %>
-			</div>
-
-			<div id="bedroom#1" >
-				<% var bedroom_index = 1; %>
-				<% include ./bedroom_form %>
-			</div>
-			<div id="bedroom#2" >
-				<% var bedroom_index = 2; %>
-				<% include ./bedroom_form %>
-			</div>
-			<div id="bedroom#3" >
-				<% var bedroom_index = 3; %>
-				<% include ./bedroom_form %>
-			</div>
-			<div id="bedroom#4" >
-				<% var bedroom_index = 4; %>
-				<% include ./bedroom_form %>
-			</div>
-		</div>
-	</div>
-
-
-	<!-- check if the room's furnished -->
-
-	<div style="margin-top: 40px">
-    	<button class="btn btn-success btn-lg float-left" type="submit" name="submit" value="prev#2">Prev</button>
-    	<button class="btn btn-primary nextBtn btn-lg float-right" type="submit" name="submit" href="/listing/landlord/new_step3" value="step#2">Next</button>
-    </div>
+	</form>
 </div>
 
 <script>
+	<%if(listing_info.listing!=null){%>
+		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
+		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>");
+	<%}%>
+	function handleOnChangeNumberOfBedrooms(elememtId){
+		var numOfRooms = elememtId.value;
+		var maxRooms = 4;
+		
 
-function handleOnChangeNumberOfBedrooms(elememtId)
-{
-	var numOfRooms = elememtId.value;
-	var maxRooms = 4;
-	
+		for (var roomCount = 1; roomCount <= maxRooms; roomCount++){
+			bedRooomGroupElement = document.getElementById(`bedroom_form_group_${roomCount}`);
 
-	for (var roomCount = 1; roomCount <= maxRooms; roomCount++)
-	{
-		bedRooomGroupElement = document.getElementById(`bedroom_form_group_${roomCount}`);
-
-		if(roomCount<=numOfRooms)
-		{
-			bedRooomGroupElement.style.display = "block";
-		}
-		else
-		{
-			bedRooomGroupElement.style.display = "none";
+			if(roomCount<=numOfRooms){
+				bedRooomGroupElement.style.display = "block";
+			}else{
+				bedRooomGroupElement.style.display = "none";
+			}
 		}
 	}
-}
-
 </script>
 
 <% include ../../partials/footer %>
