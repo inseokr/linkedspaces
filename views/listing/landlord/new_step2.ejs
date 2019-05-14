@@ -73,6 +73,18 @@
 	<%if(listing_info.listing!=null){%>
 		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
 		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>").change();
+
+		for(var i=0; i<=0; i++){
+			$(`#bedding_provided_${i}`).prop('checked', true);
+			document.getElementById(`bedding_group_${i}`).style.display = "block";
+			document.getElementById(`bedroom_${i}[num_of_guests_bedroom]`).value = <%=listing_info.listing.bedrooms[0].num_of_guests_bedroom;%>;
+			document.getElementById("bathrooms_select_0").value = <%=listing_info.listing.bedrooms[0].num_of_bathrooms;%>;
+			document.getElementById("bedroom_0[num_of_single_bed_bedroom]").value = "1";
+			document.getElementById("bedroom_0[num_of_double_bed_bedroom]").value = "1";
+			document.getElementById("bedroom_0[num_of_queen_bed_bedroom]").value = "1";
+			document.getElementById("bedroom_0[num_of_sofa_bed_bedroom]").value = "1";
+			document.getElementById("bedroom_0[num_of_floor_mattress_bedroom]").value = "1";
+		}
 	<%}%>
 	function handleOnChangeNumberOfBedrooms(elememtId){
 		var numOfRooms = elememtId.value;
@@ -80,12 +92,12 @@
 		
 
 		for (var roomCount = 1; roomCount <= maxRooms; roomCount++){
-			bedRooomGroupElement = document.getElementById(`bedroom_form_group_${roomCount}`);
+			bedRoomGroupElement = document.getElementById(`bedroom_form_group_${roomCount}`);
 
 			if(roomCount<=numOfRooms){
-				bedRooomGroupElement.style.display = "block";
+				bedRoomGroupElement.style.display = "block";
 			}else{
-				bedRooomGroupElement.style.display = "none";
+				bedRoomGroupElement.style.display = "none";
 			}
 		}
 	}
