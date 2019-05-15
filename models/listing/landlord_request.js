@@ -60,21 +60,20 @@ var LandlordRequestSchema = new mongoose.Schema({
     // bedroom information
     num_of_bedrooms: {type: Number, default: 0}, // TBD: should be Number instead?
 
-    // TBD
-    bedrooms: [
-      { 
-        num_of_guests_bedroom: { type: String, default: '0'},
-        bedding_provided: { type: String, default: 'off' }, 
-        num_of_bathrooms: { type: String, default: '0'},
+    bedrooms: {
+      type: Array,
+      default: {
+        num_of_guests_bedroom: '0',
+        bedding_provided: 'off' , 
+        num_of_bathrooms: '0',
 
-        num_of_single_bed_bedroom: { type: String, default: '0'},
-        num_of_double_bed_bedroom: { type: String, default: '0'},
-        num_of_queen_bed_bedroom: { type: String, default: '0'},
-        num_of_sofa_bed_bedroom: { type: String, default: '0'},
-        num_of_floor_mattress_bedroom: { type: String, default: '0'}
+        num_of_single_bed_bedroom: '0',
+        num_of_double_bed_bedroom: '0',
+        num_of_queen_bed_bedroom: '0',
+        num_of_sofa_bed_bedroom: '0',
+        num_of_floor_mattress_bedroom: '0'
       }
-    ],
-
+    },
 
     amenities: {
       internet: { type: String, default: 'off' },

@@ -23,7 +23,6 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="col-md-12">
 					<div style="text-align:center">
-						<h5 class="testing">test</h5>
 						<h5><%=title%></h5>
 					</div>
 					<hr>
@@ -63,7 +62,6 @@
 
 <script>
 	<%if(listing_info.listing!=null){%>
-		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
 		$('#room_type').val("<%=listing_info.listing.rental_property_information.room_type;%>")	;
 		$('#unit_type').val("<%=listing_info.listing.rental_property_information.unit_type;%>");
 

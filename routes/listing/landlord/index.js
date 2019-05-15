@@ -137,6 +137,7 @@ router.get("/:list_id/step2", function(req,res){
     		console.log("Listing not found");
     		return;
     	}
+    	console.log(foundListing);
         res.render("listing/landlord/new_step2", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
@@ -155,6 +156,7 @@ function handleStep1(req, res, foundListing){
 
 function handleStep2(req, res, foundListing){
 	// this should be a number instead?
+	foundListing.bedrooms = []; // Clear bedroom array to update with new bed forms.
 	foundListing.num_of_bedrooms = req.body.num_of_bedrooms;
 	for(var bedIndex=0; bedIndex<=foundListing.num_of_bedrooms; bedIndex++){
 		var curBedRoom = eval(`req.body.bedroom_${bedIndex}`);
@@ -163,8 +165,8 @@ function handleStep2(req, res, foundListing){
 		// So curBedRoom should contain not just the name but the structure... let's see if it works.
 		console.log("TEST");
 		console.log(curBedRoom);
-		foundListing.bedrooms[bedIndex] = curBedRoom;
-		// foundListing.bedrooms.push(curBedRoom);
+		// foundListing.bedrooms[bedIndex] = curBedRoom;
+		foundListing.bedrooms.push(curBedRoom);
 
 		foundListing.num_of_total_guests = foundListing.num_of_total_guests + Number(curBedRoom.num_of_guests_bedroom);
 		var numOfBathRooms = parseFloat(curBedRoom.num_of_bathrooms);

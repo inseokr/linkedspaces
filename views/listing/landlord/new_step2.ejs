@@ -71,20 +71,19 @@
 
 <script>
 	<%if(listing_info.listing!=null){%>
-		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
+		$('.testing').html(`<%=listing_info.listing.bedrooms.length;%>`);
 		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>").change();
-
-		for(var i=0; i<=0; i++){
-			$(`#bedding_provided_${i}`).prop('checked', true);
-			document.getElementById(`bedding_group_${i}`).style.display = "block";
-			document.getElementById(`bedroom_${i}[num_of_guests_bedroom]`).value = <%=listing_info.listing.bedrooms[0].num_of_guests_bedroom;%>;
-			document.getElementById("bathrooms_select_0").value = <%=listing_info.listing.bedrooms[0].num_of_bathrooms;%>;
-			document.getElementById("bedroom_0[num_of_single_bed_bedroom]").value = "1";
-			document.getElementById("bedroom_0[num_of_double_bed_bedroom]").value = "1";
-			document.getElementById("bedroom_0[num_of_queen_bed_bedroom]").value = "1";
-			document.getElementById("bedroom_0[num_of_sofa_bed_bedroom]").value = "1";
-			document.getElementById("bedroom_0[num_of_floor_mattress_bedroom]").value = "1";
-		}
+		<%for(var i=0; i<=listing_info.listing.num_of_bedrooms; i++){%>
+			$("#bedding_provided_<%=i%>").prop('checked', true);
+			document.getElementById("bedding_group_<%=i%>").style.display = "block";
+			document.getElementById("bathrooms_select_<%=i%>").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_bathrooms')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_guests_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_guests_bedroom')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_single_bed_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_single_bed_bedroom')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_double_bed_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_double_bed_bedroom')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_queen_bed_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_queen_bed_bedroom')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_sofa_bed_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_sofa_bed_bedroom')%>";
+			document.getElementById("bedroom_<%=i%>[num_of_floor_mattress_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_floor_mattress_bedroom')%>";
+		<%}%>
 	<%}%>
 	function handleOnChangeNumberOfBedrooms(elememtId){
 		var numOfRooms = elememtId.value;
