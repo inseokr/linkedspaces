@@ -120,8 +120,7 @@ router.put("/:list_id", function(req, res){
 	}
 });
 
-// Code for the previous button in step 2
-router.get("/:list_id/step1", function(req,res){
+router.get("/:list_id/step1", function(req,res){ // Code for the previous button in step 2
 	LandlordRequest.findById(req.params.list_id, function(err, foundListing){
 		if(err){
     		console.log("Listing not found");
@@ -131,7 +130,7 @@ router.get("/:list_id/step1", function(req,res){
 	});
 });
 
-router.get("/:list_id/step2", function(req,res){
+router.get("/:list_id/step2", function(req,res){ // Code for the previous button in step 3
 	LandlordRequest.findById(req.params.list_id, function(err, foundListing){
 		if(err){
     		console.log("Listing not found");
@@ -139,6 +138,17 @@ router.get("/:list_id/step2", function(req,res){
     	}
     	console.log(foundListing);
         res.render("listing/landlord/new_step2", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
+router.get("/:list_id/step3", function(req,res){  // Code for the previous button in step 4
+	LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err){
+    		console.log("Listing not found");
+    		return;
+    	}
+    	console.log(foundListing);
+        res.render("listing/landlord/new_step3", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
 
@@ -160,23 +170,17 @@ function handleStep2(req, res, foundListing){
 	foundListing.num_of_bedrooms = req.body.num_of_bedrooms;
 	for(var bedIndex=0; bedIndex<=foundListing.num_of_bedrooms; bedIndex++){
 		var curBedRoom = eval(`req.body.bedroom_${bedIndex}`);
-		// I want this...
-		// foundListing.bedrooms.push(req.body.bedroom_1);
-		// So curBedRoom should contain not just the name but the structure... let's see if it works.
-		console.log("TEST");
-		console.log(curBedRoom);
-		// foundListing.bedrooms[bedIndex] = curBedRoom;
 		foundListing.bedrooms.push(curBedRoom);
-
 		foundListing.num_of_total_guests = foundListing.num_of_total_guests + Number(curBedRoom.num_of_guests_bedroom);
 		var numOfBathRooms = parseFloat(curBedRoom.num_of_bathrooms);
-
 		foundListing.num_of_total_baths = foundListing.num_of_total_baths + numOfBathRooms;
 	}
 	foundListing.save();
 }
 
 function handleStep3(req, res, foundListing){
+	console.log("TEST");
+	console.log(req.body.amenities);
 	foundListing.amenities = req.body.amenities;
 	foundListing.save();
 }

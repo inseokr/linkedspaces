@@ -16,7 +16,6 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="col-md-12">
 					<div style="text-align:center">
-						<h5 class="testing">test</h5>
 						<h5><%=title%></h5>
 					</div>
 					<hr>
@@ -71,7 +70,6 @@
 
 <script>
 	<%if(listing_info.listing!=null){%>
-		$('.testing').html(`<%=listing_info.listing.bedrooms.length;%>`);
 		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>").change();
 		<%for(var i=0; i<=listing_info.listing.num_of_bedrooms; i++){%>
 			$("#bedding_provided_<%=i%>").prop('checked', true);
@@ -89,7 +87,6 @@
 		var numOfRooms = elememtId.value;
 		var maxRooms = 4;
 		
-
 		for (var roomCount = 1; roomCount <= maxRooms; roomCount++){
 			bedRoomGroupElement = document.getElementById(`bedroom_form_group_${roomCount}`);
 
