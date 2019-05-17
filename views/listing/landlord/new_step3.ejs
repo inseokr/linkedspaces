@@ -118,7 +118,15 @@
 <script>
 	<%if(listing_info.listing!=null){%>
 		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
-		$("#internet").prop('checked', true);
+		$("#internet").prop('checked', <%=eval('listing_info.listing.amenities.internet')%>);
+		$("#closet").prop('checked', <%=eval('listing_info.listing.amenities.closet')%>);
+		$("#tv").prop('checked', <%=eval('listing_info.listing.amenities.tv')%>);
+		$("#heating").prop('checked', <%=eval('listing_info.listing.amenities.heating')%>);
+		$("#ac").prop('checked', <%=eval('listing_info.listing.amenities.ac')%>);
+		$("#desk").prop('checked', <%=eval('listing_info.listing.amenities.desk')%>);
+		$("#smoke_detector").prop('checked', <%=eval('listing_info.listing.amenities.smoke_detector')%>);
+		$("#private_entrance").prop('checked', <%=eval('listing_info.listing.amenities.private_entrance')%>);
+		$("#fire_extinguisher").prop('checked', <%=eval('listing_info.listing.amenities.fire_extinguisher')%>);
 	<%}%>
 </script>
 

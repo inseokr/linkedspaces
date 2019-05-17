@@ -71,9 +71,13 @@
 <script>
 	<%if(listing_info.listing!=null){%>
 		$('#num_of_bedrooms').val("<%=listing_info.listing.num_of_bedrooms;%>").change();
+
 		<%for(var i=0; i<=listing_info.listing.num_of_bedrooms; i++){%>
-			$("#bedding_provided_<%=i%>").prop('checked', true);
-			document.getElementById("bedding_group_<%=i%>").style.display = "block";
+			var bedding_provided_boolean = <%=eval('listing_info.listing.bedrooms['+i+'].bedding_provided')%>;
+			$("#bedding_provided_<%=i%>").prop('checked', bedding_provided_boolean);
+			if(bedding_provided_boolean){
+				document.getElementById("bedding_group_<%=i%>").style.display = "block"; // Show bed form if bedding is provided.
+			}
 			document.getElementById("bathrooms_select_<%=i%>").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_bathrooms')%>";
 			document.getElementById("bedroom_<%=i%>[num_of_guests_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_guests_bedroom')%>";
 			document.getElementById("bedroom_<%=i%>[num_of_single_bed_bedroom]").value="<%=eval('listing_info.listing.bedrooms['+i+'].num_of_single_bed_bedroom')%>";

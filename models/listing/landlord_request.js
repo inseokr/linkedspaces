@@ -64,7 +64,7 @@ var LandlordRequestSchema = new mongoose.Schema({
       type: Array,
       default: {
         num_of_guests_bedroom: '0',
-        bedding_provided: 'off' , 
+        bedding_provided: false, 
         num_of_bathrooms: '0',
 
         num_of_single_bed_bedroom: '0',
@@ -76,22 +76,24 @@ var LandlordRequestSchema = new mongoose.Schema({
     },
 
     amenities: {
-      internet: { type: String, default: 'off' },
-      closet: { type: String, default: 'off' },
-      tv: { type: String, default: 'off' },
-      ac: { type: String, default: 'off' },
-      desk: { type: String, default: 'off' },
-      smoke_detector: { type: String, default: 'off' },
-      private_entrance: { type: String, default: 'off' },
-      fire_extinguisher: { type: String, default: 'off' },
+      internet: { type: Boolean, default: false },
+      closet: { type: Boolean, default: false },
+      tv: { type: Boolean, default: false },
+      heating: { type: Boolean, default: false },
+      ac: { type: Boolean, default: false },
+      desk: { type: Boolean, default: false },
+      smoke_detector: { type: Boolean, default: false },
+      private_entrance: { type: Boolean, default: false },
+      fire_extinguisher: { type: Boolean, default: false },
     }, 
 
     accessible_spaces: {
-      living_room: { type: String, default: 'off' },
-      pool: { type: String, default: 'off' },
-      gym: { type: String, default: 'off' },
-      kitchen: { type: String, default: 'off' },
-      parking: { type: String, default: 'off' }
+      living_room: { type: Boolean, default: false },
+      pool: { type: Boolean, default: false },
+      gym: { type: Boolean, default: false },
+      kitchen: { type: Boolean, default: false },
+      laundry: { type: Boolean, default: false },
+      parking: { type: Boolean, default: false }
     },
 
 

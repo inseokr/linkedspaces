@@ -88,15 +88,15 @@ router.put("/:list_id", function(req, res){
 						break;
 					case "step#3":
 						handleStep3(req,res,foundListing);
-						res.render("listing/landlord/new_step4", {listing_info: { listing: foundListing, listing_id: req.params.listing_id}});
+						res.render("listing/landlord/new_step4", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 						break;
 					case "step#4":
 						handleStep4(req,res,foundListing);
-						res.render("listing/landlord/new_step5", {listing_info: { listing: foundListing, listing_id: req.params.listing_id}});
+						res.render("listing/landlord/new_step5", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 						break;
 					case "step#5":
 						handleStep5(req,res,foundListing);
-						res.render("listing/landlord/new_step6", {listing_info: { listing: foundListing, listing_id: req.params.listing_id}});
+						res.render("listing/landlord/new_step6", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 						break;
 					case "step#6":
 						handleStep6(req,res,foundListing);
@@ -136,7 +136,6 @@ router.get("/:list_id/step2", function(req,res){ // Code for the previous button
     		console.log("Listing not found");
     		return;
     	}
-    	console.log(foundListing);
         res.render("listing/landlord/new_step2", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
@@ -147,8 +146,17 @@ router.get("/:list_id/step3", function(req,res){  // Code for the previous butto
     		console.log("Listing not found");
     		return;
     	}
-    	console.log(foundListing);
         res.render("listing/landlord/new_step3", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
+router.get("/:list_id/step4", function(req,res){  // Code for the previous button in step 5
+	LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err){
+    		console.log("Listing not found");
+    		return;
+    	}
+        res.render("listing/landlord/new_step4", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
 
@@ -170,6 +178,12 @@ function handleStep2(req, res, foundListing){
 	foundListing.num_of_bedrooms = req.body.num_of_bedrooms;
 	for(var bedIndex=0; bedIndex<=foundListing.num_of_bedrooms; bedIndex++){
 		var curBedRoom = eval(`req.body.bedroom_${bedIndex}`);
+		console.log(curBedRoom);
+		if(curBedRoom.bedding_provided==="on"){
+			curBedRoom.bedding_provided = true;
+		}else{
+			curBedRoom.bedding_provided = false;
+		}
 		foundListing.bedrooms.push(curBedRoom);
 		foundListing.num_of_total_guests = foundListing.num_of_total_guests + Number(curBedRoom.num_of_guests_bedroom);
 		var numOfBathRooms = parseFloat(curBedRoom.num_of_bathrooms);
@@ -179,13 +193,17 @@ function handleStep2(req, res, foundListing){
 }
 
 function handleStep3(req, res, foundListing){
-	console.log("TEST");
-	console.log(req.body.amenities);
+	for(var key in req.body.amenities){
+		req.body.amenities[key] = true; // Anything in req.body.amenities should be set to true.
+	}
 	foundListing.amenities = req.body.amenities;
 	foundListing.save();
 }
 
 function handleStep4(req, res, foundListing){
+	for(var key in req.body.accessible_spaces){
+		req.body.accessible_spaces[key] = true; // Anything in req.body.amenities should be set to true.
+	}
 	foundListing.accessible_spaces = req.body.accessible_spaces;
 	foundListing.save();
 }

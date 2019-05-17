@@ -91,7 +91,13 @@
 <script>
 	<%if(listing_info.listing!=null){%>
 		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
-\	<%}%>
+		$("#living_room").prop('checked', <%=eval('listing_info.listing.accessible_spaces.living_room')%>);
+		$("#pool").prop('checked', <%=eval('listing_info.listing.accessible_spaces.pool')%>);
+		$("#gym").prop('checked', <%=eval('listing_info.listing.accessible_spaces.gym')%>);
+		$("#kitchen").prop('checked', <%=eval('listing_info.listing.accessible_spaces.kitchen')%>);
+		$("#laundry").prop('checked', <%=eval('listing_info.listing.accessible_spaces.laundry')%>);
+		$("#parking").prop('checked', <%=eval('listing_info.listing.accessible_spaces.parking')%>);
+	<%}%>
 </script>
 
 <% include ../../partials/footer %>
