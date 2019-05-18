@@ -1,30 +1,157 @@
 <% include ../partials/header %>
 
 <link rel="stylesheet" href="/stylesheets/mynetwork_style.css"> 
+<style>
+.connection_pannel {
+	top: 155px;
+	left: 10%;
+	height: 80px;
+	width: 300px;
+	position: fixed;
+	border-bottom-style:ridge;
+	border-top-style:ridge;
+}
 
-<div class="container bottom-shadow">
-	<span style="text-align:center;"><h3> Friends Recommendation </h3></span>
-	<hr>
-	<div class="d-flex justify-content-between">
-	<%
-		var x;
-		for (x in friends_list) {%>
+.connection_image {
+	position: relative;
+	top: 4px;
+	width: 80px;
+}
 
-		<div class="network_board">
-			<div class="profile_picture">
-				<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=friends_list[x].profile_picture%>'>
-			</div>
-			<div class="friend_information">
-				<span class="friend_name">'<%=friends_list[x].name%>'</span>
-				<br>
-				<span class="friend_location">'<%=friends_list[x].address.city+","+friends_list[x].address.state%>'</span>
-			</div>
-			<div class="action">
-				<button class="btn btn-info">Connect</button>
+.image1 {
+	position: absolute;
+	top: 0; 
+	left: 0;
+	height: 70px;
+}
+
+.image2 {
+	position: absolute;
+	top: 0;
+	left: 20px;
+	height: 70px;
+}
+
+.image3 {
+	position: absolute;
+	top: 0;
+	left: 40px;
+	height: 70px;
+}
+
+.connection_caption {
+	position: relative;
+	top: 35%;
+	left: 0;
+}
+</style>
+
+<div class="row">
+
+<div class="col-lg-3">
+	<div class="d-flex justify-content-around connection_pannel wooden_background">
+		<div class="connection_image">
+			<div class="col">
+				<div class="image1">
+					<img class="img-responsive center rounded-circle" style="max-height: 70%; margin-top:10px;" src="../public/user_resources/pictures/Peter.jpg">
+				</div>
+				<div class="image2">
+					<img class="img-responsive center rounded-circle" style="max-height: 70%; margin-top:10px;" src="../public/user_resources/pictures/Joongho.jpg">
+				</div>
+				<div class="image3">
+					<img class="img-responsive center rounded-circle" style="max-height: 70%; margin-top:10px;" src='<%=friends_list[0].profile_picture%>'>
+				</div>
 			</div>
 		</div>
-	<%}%>
+		<div class="connection_caption bold_fonts">Connections(3)</div>
 	</div>
 </div>
 
+<div class="col-lg-6">
+	<div class="bottom-shadow">
+		<span style="text-align:center;"><h3> Friends Recommendation </h3></span>
+		<hr>
+		<div class="d-flex justify-content-between">
+		<%
+			var x;
+			for (x in friends_list) {%>
+
+			<div class="network_board">
+				<div class="profile_picture">
+					<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=friends_list[x].profile_picture%>'>
+				</div>
+				<div class="friend_information">
+					<span class="bold_fonts"><%=friends_list[x].name%></span>
+					<br>
+					<span class="normal_fonts"><%=friends_list[x].address.city+","+friends_list[x].address.state%></span>
+				</div>
+
+				<form role="form" action="/mynetwork/<%=friends_list[x].id%>/friend_request" method="post">
+					<div class="action">
+						<button class="btn btn-info">Connect</button>
+					</div>
+				</form>
+			</div>
+		<%}%>
+		</div>
+
+		<hr>
+
+		<!-- Pending Friend Request -->
+		<div class="d-flex justify-content-between">
+		<%
+			var x;
+			for (x in friends_list) {%>
+
+			<div class="network_board">
+				<div class="profile_picture">
+					<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=friends_list[x].profile_picture%>'>
+				</div>
+				<div class="friend_information">
+					<span class="bold_fonts">'<%=friends_list[x].name%>'</span>
+					<br>
+					<span class="normal_fonts">'<%=friends_list[x].address.city+","+friends_list[x].address.state%>'</span>
+				</div>
+
+				<form role="form" action="/mynetwork/<%=friends_list[x].id%>/friend_request" method="post">
+					<div class="action">
+						<button class="btn btn-info">Pending</button>
+					</div>
+				</form>
+			</div>
+		<%}%>
+		</div>
+	</div>
+
+	<div class="bottom-shadow">
+		<span style="text-align:center;"><h3> Incoming Friend Requests </h3></span>
+		<hr>
+		<div class="d-flex justify-content-between">
+		<%
+			var x;
+			for (x in friends_list) {%>
+
+			<div class="network_board">
+				<div class="profile_picture">
+					<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=friends_list[x].profile_picture%>'>
+				</div>
+				<div class="friend_information">
+					<span class="bold_fonts">'<%=friends_list[x].name%>'</span>
+					<br>
+					<span class="normal_fonts">'<%=friends_list[x].address.city+","+friends_list[x].address.state%>'</span>
+				</div>
+
+				<form role="form" action="/mynetwork/<%=friends_list[x].id%>/friend_request" method="post">
+					<div class="action">
+						<button class="btn btn-info">Accept</button>
+					</div>
+				</form>
+			</div>
+		<%}%>
+		</div>
+		<hr>
+	</div>
+</div>
+
+</div>
 <% include ../partials/footer %> 

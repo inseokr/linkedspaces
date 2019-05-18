@@ -26,7 +26,7 @@
   margin-top: 15px;
 }
 
-.friend_information .friend_name {
+.bold_fonts {
     margin: 0px !important;
     word-wrap: break-word !important;
     font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
@@ -36,7 +36,7 @@
     color: #484848 !important;
 }
 
-.friend_information .friend_location {
+.friend_location {
     #margin: 0px !important;
     word-wrap: break-word !important;
     font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;

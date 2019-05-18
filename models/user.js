@@ -2,16 +2,26 @@ var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
 var UserSchema = new mongoose.Schema({
-	firstname:  String,
-	lastname:   String,
-	username:   String,
-	password:   String,
-	email:      String,
-	gender:     String,
-	birthdate:  Date,
+	firstname:       String,
+	lastname:        String,
+	username:        String,
+	password:        String,
+	email:           String,
+	gender:          String,
+	birthdate:       Date,
 
-	direct_friends: {
-		friend: {
+	profile_picture: String, // The path to the profile picture
+	
+	address: {
+        street: String,
+        city: String,
+        state: String,
+        country: String,
+        zipcode: Number
+    },  
+
+	direct_friends: [
+		{
 			id: {
 		     	type: mongoose.Schema.Types.ObjectId,
 		     	ref: "User"
@@ -19,7 +29,27 @@ var UserSchema = new mongoose.Schema({
 		    name: String,
 		    email: String
 		}
-	},
+	],
+
+	incoming_friends_requests: [
+		{
+			id: {
+			    type: mongoose.Schema.Types.ObjectId,
+			     ref: "User"
+			},
+			name: String
+		}
+	],
+
+	outgoing_friends_requests: [
+		{
+			id: {
+		     	type: mongoose.Schema.Types.ObjectId,
+		     	ref: "User"
+		     },
+			name: String
+		}
+	],
 
 	tenant_listing: {
 		id: {
