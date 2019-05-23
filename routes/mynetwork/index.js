@@ -9,8 +9,6 @@ node.loop = node.runLoopOnce;
 
 async function getCurUser(req)
 {
-	// TBD: it fails to find current user!!
-	// hmm... it's strange, but it didn't work if I add reject case....
 	return new Promise((resolve, reject) => {
 		User.findById(req.user._id, function(err, curr_user){
 			if(err)
@@ -26,29 +24,6 @@ async function getCurUser(req)
 	});
 
 }
-
-async function buildRecommendedFriendsList(req) {
-
-	return new Promise(resolve => {
-
-		User.find({}, function(error, users) {
-			var recommended_friends_list = [];
-
-			users.forEach(function(user){
-				if(req.user._id.equals(user._id)!=true)
-				{
-					var friend = {profile_picture: "../public/user_resources/pictures/Chinh - Vy.jpg", 
-					              name: user.firstname + user.lastname, 
-					              address: {city: "San Jose", state: "CA"},
-					              id: user._id};
-					recommended_friends_list.push(friend);
-				}
-			});
-
-			resolve(recommended_friends_list);
-		});
-	});
-} 
 
 
 function getSummaryOfUser(user_id) {
@@ -70,19 +45,6 @@ function getSummaryOfUser(user_id) {
 
 }
 
-function buildPendingFriendsList(curr_user) {
-
-	return new Promise(async resolve => {
-
-		var pendingFriendsList = [];
-
-		curr_user.outgoing_friends_requests.forEach(function (cur_friend) {
-			getSummaryOfUser(cur_friend.id).then(friend=> pendingFriendsList.push(friend));
-		});
-
-		resolve(pendingFriendsList);
-	});
-} 
 
 function pushFriendReqstList(list, friend){
 	return new Promise(resolve => {
@@ -91,27 +53,87 @@ function pushFriendReqstList(list, friend){
 	});
 }
 
+function requestedAlready(curr_user, friend_id)
+{
+	let bFound = false;
 
-function buildIncomingFriendReqList(curr_user) {
+	curr_user.outgoing_friends_requests.forEach(function(friend){
+		if(friend.id.equals(friend_id)==true)
+		{
+			bFound = true;
+			// ISEO: seriously??? function return twice??
+			// I returned true from here, 
+			// but it didn't break out from the function and it moved on to return outside of this for loop.
+		} 
+	});
+
+	return bFound;
+}
+
+async function buildRecommendedFriendsList(curr_user) {
+
+	return new Promise(resolve => {
+
+		User.find({}, function(error, users) {
+			var recommended_friends_list = [];
+
+			users.forEach(function(user){
+				if((curr_user._id.equals(user._id)!=true) && (requestedAlready(curr_user, user._id)==false))
+				{
+					var friend = {profile_picture: "../public/user_resources/pictures/Chinh - Vy.jpg", 
+					              name: user.firstname + user.lastname, 
+					              address: {city: "San Jose", state: "CA"},
+					              id: user._id};
+					recommended_friends_list.push(friend);
+				}
+			});
+
+			resolve(recommended_friends_list);
+		});
+	});
+} 
+
+function buildFriendsList(input_list) {
+
 	return new Promise(async resolve => {
 
-		var incomingFriendRequestList = [];
+		var output_list = [];
 
-		if(curr_user.incoming_friends_requests.length==0) 
+		if(input_list.length==0)
 		{
-			resolve(incomingFriendRequestList);
+			resolve(output_list);
 		}
 
-		for(var friend_idx=0; friend_idx < curr_user.incoming_friends_requests.length ;  friend_idx++)
+		for(var friend_idx=0; friend_idx < input_list.length ;  friend_idx++)
 		{
-			const friend =  await getSummaryOfUser(curr_user.incoming_friends_requests[friend_idx].id);
-			const res    =  await pushFriendReqstList(incomingFriendRequestList, friend);
+			const friend =  await getSummaryOfUser(input_list[friend_idx].id);
+			const res    =  await pushFriendReqstList(output_list, friend);
 
-			if((friend_idx+1)==curr_user.incoming_friends_requests.length)
+			if((friend_idx+1)==input_list.length)
 			{
-				resolve(incomingFriendRequestList);
+				resolve(output_list);
 			}			
 		}
+
+	});
+}
+
+function buildPendingFriendsList(curr_user) {
+
+	return new Promise(async resolve => {
+
+		buildFriendsList(curr_user.outgoing_friends_requests).then((output_list) => {resolve(output_list)});
+
+	});
+} 
+
+
+function buildIncomingFriendReqList(curr_user) {
+
+	return new Promise(async resolve => {
+
+		buildFriendsList(curr_user.incoming_friends_requests).then((output_list) => {resolve(output_list)});
+
 	});
 } 
 
@@ -123,9 +145,8 @@ async function buildMyNetworkList(req) {
 
 		const curUser = await getCurUser(req);
 
-
-		networkInfo.recommended_friends_list 	  = await buildRecommendedFriendsList(req);
-		networkInfo.pending_friends_reqeust_list  = await buildPendingFriendsList(curUser);
+		networkInfo.recommended_friends_list 	  = await buildRecommendedFriendsList(curUser);
+		networkInfo.pending_friends_request_list  = await buildPendingFriendsList(curUser);
 
 		buildIncomingFriendReqList(curUser).then((req_list) => 
 		{
@@ -167,24 +188,8 @@ router.post("/:friend_id/friend_request", function(req, res){
 				curr_user.save();
 
 				// Let's render with updated database...
+				res.redirect("/mynetwork");
 			});
-
-/*
-			// This doen't work at all...
-			var requestingFriend = {id: req.user._id, name: "In Seo"};
-			User.findByIdAndUpdate(req.user._id,
-    			{$push: {outgoing_friends_requests: requestingFriend}},
-    			{safe: true, upsert: true},
-    			function(err, picked_user) {
-        			if(err){
-        				console.log(err);
-        			}else{
-        				//do stuff
-        				picked_user.save();
-        			}
-    		});
-    		*/
-
 		}
 	});
 
