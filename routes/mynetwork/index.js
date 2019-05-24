@@ -138,24 +138,15 @@ function buildFriendsList(input_list) {
 	});
 }
 
-function buildPendingFriendsList(curr_user) {
+function buildAsyncFriendList(input_list) {
 
 	return new Promise(async resolve => {
 
-		buildFriendsList(curr_user.outgoing_friends_requests).then((output_list) => {resolve(output_list)});
+		buildFriendsList(input_list).then((output_list) => {resolve(output_list)});
 
 	});
 } 
 
-
-function buildIncomingFriendReqList(curr_user) {
-
-	return new Promise(async resolve => {
-
-		buildFriendsList(curr_user.incoming_friends_requests).then((output_list) => {resolve(output_list)});
-
-	});
-} 
 
 async function buildMyNetworkList(req) {
 
@@ -166,9 +157,10 @@ async function buildMyNetworkList(req) {
 		const curUser = await getCurUser(req);
 
 		networkInfo.recommended_friends_list 	  = await buildRecommendedFriendsList(curUser);
-		networkInfo.pending_friends_request_list  = await buildPendingFriendsList(curUser);
+		networkInfo.pending_friends_request_list  = await buildAsyncFriendList(curUser.outgoing_friends_requests);
+		networkInfo.direct_friends_list           = await buildAsyncFriendList(curUser.direct_friends);
 
-		buildIncomingFriendReqList(curUser).then((req_list) => 
+		buildAsyncFriendList(curUser.incoming_friends_requests).then((req_list) => 
 		{
 			networkInfo.number_of_friends = curUser.direct_friends.length;
 			networkInfo.incoming_friends_request_list=req_list;

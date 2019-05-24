@@ -106,6 +106,39 @@
 		</div>
 		<hr>
 	</div>
+
+	<div class="bottom-shadow">
+		<span style="text-align:center;"><h3> Direct Friends </h3></span>
+		<hr>
+		<div class="d-flex justify-content-between">
+		<%
+			var x;
+
+			for (x in network_info.direct_friends_list) {%>
+
+			<div class="network_board">
+				<div class="profile_picture">
+
+					<img class="img-responsive center rounded-circle" style="max-width: 100%; margin-top:10px;" src='<%=network_info.direct_friends_list[x].profile_picture%>'>
+				</div>
+				<div class="friend_information">
+
+					<span class="bold_fonts">'<%=network_info.direct_friends_list[x].name%>'</span>
+					<br>
+					<span class="normal_fonts">'<%=network_info.direct_friends_list[x].address.city+","+network_info.direct_friends_list[x].address.state%>'</span>
+				</div>
+
+				<form role="form" action="/mynetwork/<%=network_info.direct_friends_list[x].id%>/friend_accept" method="post">
+					<div class="action">
+						<button class="btn btn-info">Message</button>
+					</div>
+				</form>
+			</div>
+		<%}%>
+		</div>
+		<hr>
+	</div>
+
 </div>
 
 </div>
