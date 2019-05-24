@@ -70,6 +70,24 @@ function requestedAlready(curr_user, friend_id)
 	return bFound;
 }
 
+function isDirectFriend(curr_user, friend_id)
+{
+	let bFound = false;
+
+	curr_user.direct_friends.forEach(function(friend){
+		if(friend.id.equals(friend_id)==true)
+		{
+			bFound = true;
+			// ISEO: seriously??? function return twice??
+			// I returned true from here, 
+			// but it didn't break out from the function and it moved on to return outside of this for loop.
+		} 
+	});
+
+	return bFound;
+
+}
+
 async function buildRecommendedFriendsList(curr_user) {
 
 	return new Promise(resolve => {
@@ -78,7 +96,9 @@ async function buildRecommendedFriendsList(curr_user) {
 			var recommended_friends_list = [];
 
 			users.forEach(function(user){
-				if((curr_user._id.equals(user._id)!=true) && (requestedAlready(curr_user, user._id)==false))
+				if((curr_user._id.equals(user._id)!=true) && 
+				   (requestedAlready(curr_user, user._id)==false) &&
+				   (isDirectFriend(curr_user, user._id)==false))
 				{
 					var friend = {profile_picture: "../public/user_resources/pictures/Chinh - Vy.jpg", 
 					              name: user.firstname + user.lastname, 
@@ -189,6 +209,57 @@ router.post("/:friend_id/friend_request", function(req, res){
 
 				// Let's render with updated database...
 				res.redirect("/mynetwork");
+			});
+		}
+	});
+
+});
+
+router.post("/:friend_id/friend_accept", function(req, res){
+
+	User.findById(req.params.friend_id, function(err, friend){
+
+		if(err){
+			console.log("No such user found");
+		}
+		else
+		{
+			User.findById(req.user._id, function(err, curr_user){
+				var acceptingFriend = {id: req.user._id, name: curr_user.firstname + curr_user.lastname, email: curr_user.email};
+				friend.direct_friends.push(acceptingFriend);
+
+
+				User.update({
+				    _id: req.params.friend_id
+				}, {
+				    $pull: 
+				        {outgoing_friends_requests: {id: req.user._id}}
+				    },
+				    function (err, val) {
+						friend.save();
+				});
+				
+				var acceptedFriend = {id: friend._id, name: friend.firstname + friend.lastname, email: friend.email};
+
+				curr_user.direct_friends.push(acceptedFriend);
+
+				// ISEO-TBD:... can't believe but remove/pull only works with _id, not other fields.
+				//result = curr_user.incoming_friends_requests.remove({_id: friendObjectToRemove._id});
+				//result =curr_user.incoming_friends_requests.pull(friend._id);
+		
+				// This works but non-sense to me... why should I query again??
+				User.update({
+				    _id: req.user._id
+				}, {
+				    $pull: 
+				        {incoming_friends_requests: {id: friend._id}}
+				    },
+				    function (err, val) {
+						curr_user.save();
+						// Let's render with updated database...
+						res.redirect("/mynetwork");
+				});
+				
 			});
 		}
 	});

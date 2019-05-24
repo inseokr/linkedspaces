@@ -96,7 +96,7 @@
 					<span class="normal_fonts">'<%=network_info.incoming_friends_request_list[x].address.city+","+network_info.incoming_friends_request_list[x].address.state%>'</span>
 				</div>
 
-				<form role="form" action="/mynetwork/<%=network_info.incoming_friends_request_list[x].id%>/friend_request" method="post">
+				<form role="form" action="/mynetwork/<%=network_info.incoming_friends_request_list[x].id%>/friend_accept" method="post">
 					<div class="action">
 						<button class="btn btn-info">Accept</button>
 					</div>
