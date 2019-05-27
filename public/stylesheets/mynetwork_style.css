@@ -26,7 +26,7 @@
   margin-top: 15px;
 }
 
-.friend_information .friend_name {
+.bold_fonts {
     margin: 0px !important;
     word-wrap: break-word !important;
     font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
@@ -36,7 +36,7 @@
     color: #484848 !important;
 }
 
-.friend_information .friend_location {
+.normal_fonts {
     #margin: 0px !important;
     word-wrap: break-word !important;
     font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
@@ -64,4 +64,55 @@
 
 .bottom-shadow div {
   padding: 5px;
+}
+
+
+.connection_pannel {
+  top: 155px;
+  left: 8%;
+  height: 80px;
+  width: 300px;
+  position: fixed;
+  border-bottom-style:ridge;
+  border-top-style:ridge;
+}
+
+.connection_image {
+  position: relative;
+  top: 4px;
+  width: 80px;
+}
+
+.image1 {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  height: 70px;
+}
+
+.image2 {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  height: 70px;
+}
+
+.image3 {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  height: 70px;
+}
+
+.image4 {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  height: 70px;
+}
+
+.connection_caption {
+  position: relative;
+  top: 35%;
+  left: 0;
 }

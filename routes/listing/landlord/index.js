@@ -29,6 +29,8 @@ router.post("/new", function(req, res){
         newListing.maximum_range_in_miles = req.body.maximum_range_in_miles;
         newListing.rental_budget = req.body.rental_budget;
 
+        newListing.num_of_bedrooms = 0;
+
         newListing.save();
 
 
