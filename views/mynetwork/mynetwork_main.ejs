@@ -19,7 +19,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="connection_caption bold_fonts">Connections(<%=network_info.number_of_friends%>)</div>
+		<div class="connection_caption bold_fonts">
+			<a href="#direct_friends"> Connections(<%=network_info.number_of_friends%>) </a>
+		</div>
 	</div>
 </div>
 
@@ -107,7 +109,7 @@
 		<hr>
 	</div>
 
-	<div class="bottom-shadow">
+	<div class="bottom-shadow" id="direct_friends">
 		<span style="text-align:center;"><h3> Direct Friends </h3></span>
 		<hr>
 		<div class="d-flex justify-content-between">
