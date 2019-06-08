@@ -1,5 +1,9 @@
 					<div style="text-align:center">
-            			<h5> Location Information</h5>
+						<% if (typeof title == 'string'){%>
+							<h5> <%= title %> <h5>
+						<%} else {%>
+	            			<h5> Location Information</h5>
+						<%}%>
           			</div>  
           			<hr>
 			        <div class="flex-container" style="margin-top: 20px">

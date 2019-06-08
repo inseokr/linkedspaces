@@ -16,6 +16,7 @@ var listingRoutes    = require("./routes/listing/index");
 var mynetworkRoutes  = require("./routes/mynetwork/index");
 var landlordRoutes   = require("./routes/listing/landlord/index");
 var tenantRoutes     = require("./routes/listing/tenant/index");
+var profileRoutes    = require("./routes/profile/index");
 var fs               = require("fs");
 var path             = require("path");
 
@@ -90,6 +91,7 @@ app.use("/listing", listingRoutes);
 app.use("/mynetwork", mynetworkRoutes);
 app.use("/listing/landlord", landlordRoutes);
 app.use("/listing/tenant", tenantRoutes);
+app.use("/profile", profileRoutes);
 
 app.use(fileUpload());
 
@@ -282,6 +284,64 @@ app.post('/listing/tenant/:list_id/file_delete', function(req, res) {
   });
 
 });
+
+
+
+// file operation for profile
+// ISEO: req.files were undefined if it's used in routers.
+// We need to address this problem later, but I will define it inside app.js for now.
+app.post('/profile/:user_id/file_upload', function(req, res) {
+
+  console.log("file upload: user_id: " + req.params.user_id);
+
+  User.findById(req.params.user_id, function(err, curr_user){
+    if (Object.keys(req.files).length == 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.file_name;
+    let user_id = req.params.user_id;
+    let picPath = "./public/user_resources/pictures/"+user_id+"_"+"profile"+"."+sampleFile.name.split(".")[1];
+
+    console.log("picPath=" + picPath);
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(picPath, function(err) {
+      if (err)
+        return res.status(500).send(err);
+
+      console.log("ISEO: Successful File upload");
+
+      curr_user.profile_picture = picPath;
+
+      curr_user.save();
+
+      res.send('File uploaded!');
+    });
+  });
+
+});
+
+app.post('/profile/:user_id/file_delete', function(req, res) {
+
+  User.findById(req.params.user_id, function(err, curr_user){
+    try {
+      const picPath = "./public/user_resources/pictures/"+req.params.user_id+"_"+"profile"+".jpg";
+
+      fs.unlinkSync(picPath);
+
+      curr_user.profile_picture = "";
+
+      curr_user.save();
+    }  catch(err){
+      console.error(err);
+    }
+  });
+
+});
+
 
 
 app.get("/public/user_resources/pictures/:filename", function(req, res){

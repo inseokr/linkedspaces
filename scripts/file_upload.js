@@ -62,6 +62,7 @@ function handleOnMouseOutImagePreview(elementId) {
 
 }
 
+
 function readURL(input, url_prefix, _id) {
 
 	console.log("readURL is called. url_prefix="+url_prefix);
