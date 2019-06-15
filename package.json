@@ -10,8 +10,10 @@
   "author": "In Seo",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.0.1",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
+    "crypto": "^1.0.1",
     "deasync": "^0.1.14",
     "ejs": "^2.6.1",
     "ejs-lint": "^0.3.0",

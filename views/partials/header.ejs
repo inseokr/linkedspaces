@@ -87,7 +87,11 @@ span.num {
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-                <img class="img-responsive center rounded-circle" style="max-height: 70%; height: 30px;" src="/public/user_resources/pictures/inseo_profile.jpg">
+                <% if(locals.profile_picture != "") {%>
+                <img class="img-responsive center rounded-circle" style="max-height: 70%; height: 30px;" src="<%=locals.profile_picture%>">
+                <% } else {%>
+                <img class="img-responsive center rounded-circle" style="max-height: 70%; height: 30px;" src="/public/user_resources/pictures/profile_pictures/default_profile.jpg">
+                <%}%>
             </a>
           </li>
 	      <% } %>
@@ -147,6 +151,11 @@ span.num {
 			    <div class="modal-footer d-flex justify-content-center form-group">
 			       <button class="btn btn-danger p-2 flex-grow-1">Login</button>
 			    </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+             <a href="/forgot"> Forgot Password <a>
+          </div>
+
 			  </form>
 		    </div>
 		  </div>

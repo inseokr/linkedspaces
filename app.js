@@ -93,6 +93,8 @@ app.use("/listing/tenant", tenantRoutes);
 
 app.use(fileUpload());
 
+app.locals.profile_picture = "/public/user_resources/pictures/profile_pictures/default_profile.jpg";
+
 // ISEO-TBD: test e-mail
 /*
 // TBD: test email
@@ -288,6 +290,13 @@ app.get("/public/user_resources/pictures/:filename", function(req, res){
   var fileName = req.params.filename;
   console.log("picture: received file name=" + fileName)
     res.sendFile(path.join(__dirname, `/public/user_resources/pictures/${fileName}`));
+});
+
+
+app.get("/public/user_resources/pictures/profile_pictures/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("Profile picture: received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/public/user_resources/pictures/profile_pictures/${fileName}`));
 });
 
 

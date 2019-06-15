@@ -77,7 +77,7 @@ legend{
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #79bc64;
+  background-color: #007bff;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
