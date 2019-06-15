@@ -8,6 +8,8 @@ var UserSchema = new mongoose.Schema({
 	password:        String,
 	email:           String,
 	phone: 			 String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 	gender:          String,
 	birthdate:       Date,
 
