@@ -312,7 +312,7 @@ router.get("/:list_id/show/:filename", function(req, res){
 });
 
 
-// It's a bit strange but browser sends tenan/:list_id/:filename as the URL with the following image request
+// It's a bit strange but browser sends tenant/:list_id/:filename as the URL with the following image request
 // <img src="Peter.jpg">
 router.get("/:list_id/:filename", function(req, res){
 	var fileName = req.params.filename;

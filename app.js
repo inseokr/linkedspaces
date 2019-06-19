@@ -158,7 +158,7 @@ app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
     let sampleFile = req.files.file_name;
     let picIndex = req.body.pic_index;
     let list_id = req.params.list_id;
-    let picPath = "./public/user_resources/pictures/"+list_id+"_"+picIndex+"."+sampleFile.name.split(".")[1];
+    let picPath = "./public/user_resources/pictures/landlord/"+list_id+"_"+picIndex+"_"+sampleFile.name;
 
     console.log("picPath=" + picPath);
 

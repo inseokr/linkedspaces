@@ -160,6 +160,16 @@ router.get("/:list_id/step4", function(req,res){  // Code for the previous butto
 	});
 });
 
+router.get("/:list_id/step5", function(req,res){  // Code for the previous button in step 6
+	LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+		if(err){
+    		console.log("Listing not found");
+    		return;
+    	}
+        res.render("listing/landlord/new_step5", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
 function handleStep1(req, res, foundListing){
 	foundListing.requester.id = req.user._id;
 	foundListing.requester.username = req.user.username;

@@ -76,7 +76,14 @@
 
 <script>
 	<%if(listing_info.listing!=null){%>
-		$('.testing').html(`<%=listing_info.listing.requester.id;%>`);
+		$('.testing').html('url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[0].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
+		
+		$("#imagePreview-1").css('background-image', 'url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[0].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
+		$("#imagePreview-1").css('background-position', '0% 10%');
+		$("#imagePreview-1").css('background-size', '100%');
+		$("#imagePreview-1").hide();
+		$("#imagePreview-1").fadeIn(650);
+		$("#previewLabel-1").css('opacity', 0);
 	<%}%>
 
 	var nextPictureIndex = 1;
