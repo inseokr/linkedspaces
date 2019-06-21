@@ -17,7 +17,6 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="col-md-12">
 					<div style="text-align:center">
-						<h5 class="testing">test</h5>
 						<h5> <%=title%></h5>
 					</div>
 					<hr>
@@ -100,7 +99,6 @@
 
 	<%if(listing_info.listing!=null){%>
 		<%for(var i=0; i<listing_info.listing.pictures.length; i++){%>
-			$('.testing').html('<%=listing_info.listing.pictures[i].caption%>');
 			// Load the image and the caption
 			$("#imagePreview-<%=i+1%>").css('background-image', 'url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[i].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
 			$("#previewLabel-<%=i+1%>").css('opacity', 0);
