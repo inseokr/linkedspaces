@@ -318,7 +318,6 @@ app.post('/profile/:user_id/file_upload', function(req, res) {
 
       curr_user.profile_picture = picPath;
 
-      // updating profile picture variable for EJS.
       app.locals.profile_picture = picPath;
 
       curr_user.save();
