@@ -290,6 +290,11 @@ app.get("/public/user_resources/pictures/:filename", function(req, res){
     res.sendFile(path.join(__dirname, `/public/user_resources/pictures/${fileName}`));
 });
 
+app.get("/public/user_resources/pictures/landlord/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("picture: received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/public/user_resources/pictures/landlord/${fileName}`));
+});
 
 app.get("/public/user_resources/pictures/tenant/:filename", function(req, res){
   var fileName = req.params.filename;

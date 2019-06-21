@@ -75,21 +75,8 @@
 </div>
 
 <script>
-	<%if(listing_info.listing!=null){%>
-		$('.testing').html('url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[0].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
-		
-		$("#imagePreview-1").css('background-image', 'url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[0].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
-		$("#imagePreview-1").css('background-position', '0% 10%');
-		$("#imagePreview-1").css('background-size', '100%');
-		$("#imagePreview-1").hide();
-		$("#imagePreview-1").fadeIn(650);
-		$("#previewLabel-1").css('opacity', 0);
-	<%}%>
-
 	var nextPictureIndex = 1;
-
 	// set display to none except the first
-
 	for (var pictureIndex =1; pictureIndex <=20; pictureIndex++)
 	{
 		if(pictureIndex==1)
@@ -111,8 +98,20 @@
 		}
 	}
 
-	function handleOnClickDeletePic(elementId, picIndex, _id)
-	{
+	<%if(listing_info.listing!=null){%>
+		<%for(var i=0; i<listing_info.listing.pictures.length; i++){%>
+			$('.testing').html('<%=listing_info.listing.pictures[i].caption%>');
+			// Load the image and the caption
+			$("#imagePreview-<%=i+1%>").css('background-image', 'url("/public/user_resources/pictures/landlord/<%=listing_info.listing.pictures[i].path.split("/")[listing_info.listing.pictures[0].path.split("/").length-1]%>")');
+			$("#previewLabel-<%=i+1%>").css('opacity', 0);
+			$("#imageCapture-<%=i+1%>").val('<%=listing_info.listing.pictures[i].caption%>');
+			// Display the next image
+			var picturePreviewId = document.getElementById("avatar-upload-<%=i+2%>");
+			picturePreviewId.style.display = "inline-block";
+		<%}%>
+	<%}%>
+
+	function handleOnClickDeletePic(elementId, picIndex, _id){
 		// Upload the file along with caption
 		var myFormData = new FormData();
 		myFormData.append("pic_index", picIndex);
@@ -136,7 +135,7 @@
 	    nextPictureIndex--;
 	}
 
-	function handleOnMouseHooverImagePreview(elementId, picIndex) {
+	function handleOnMouseHooverImagePreview(elementId, picIndex){
 	    var previewLabelId = document.getElementById(`previewLabel-${picIndex}`);
 	    
 	    if(previewLabelId.style.opacity==0)
@@ -155,7 +154,7 @@
 	    }
 	}
 
-	function handleOnMouseOutImagePreview(elementId, picIndex) {
+	function handleOnMouseOutImagePreview(elementId, picIndex){
 	    var previewLabelId = document.getElementById(`previewLabel-${picIndex}`);
 
 	    if(previewLabelId.style.opacity==0) {
