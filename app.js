@@ -318,6 +318,8 @@ app.post('/profile/:user_id/file_upload', function(req, res) {
 
       curr_user.profile_picture = picPath;
 
+      app.locals.profile_picture = picPath;
+
       curr_user.save();
 
       res.send('File uploaded!');
