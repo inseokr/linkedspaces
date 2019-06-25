@@ -25,6 +25,7 @@ router.post("/new", function(req, res){
         newListing.rental_duration = req.body.rental_duration;
         newListing.maximum_range_in_miles = req.body.maximum_range_in_miles;
         newListing.rental_budget = req.body.rental_budget;
+        newListing.num_of_bedrooms = 0;
 
         newListing.save(function(err){
 
@@ -39,6 +40,7 @@ router.post("/new", function(req, res){
         		console.log("User Not found with given User");
         		return;
         	}
+
 
         	foundUser.landlord_listing.id = newListing._id;
         	foundUser.save();
