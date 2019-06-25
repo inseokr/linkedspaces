@@ -330,7 +330,7 @@ router.get("/marker_trial_v1", function(req, res){
 router.get("/:filename", function(req, res){
 	var fileName = req.params.filename;
  	console.log("received file name=" + fileName)
-  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/landlord/${fileName}`));
 });
 
 

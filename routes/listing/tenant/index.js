@@ -308,7 +308,7 @@ router.delete("/:list_id", function(req, res){
 router.get("/:list_id/show/:filename", function(req, res){
 	var fileName = req.params.filename;
  	console.log("received file name=" + fileName)
-  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/${fileName}`));
+  	res.sendFile(path.join(__dirname, `../../../public/user_resources/pictures/tenant/${fileName}`));
 });
 
 

@@ -195,7 +195,7 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
 
   LandlordRequest.findById(req.params.list_id, function(err, foundListing){
     try {
-      const picPath = "./public/user_resources/pictures/"+req.params.list_id+"_"+picIndex+".jpg";
+      const picPath = "./public/user_resources/pictures/landdlord/"+req.params.list_id+"_"+picIndex+".jpg";
 
       fs.unlinkSync(picPath);
       foundListing.pictures[picIndex-1].path = "";
