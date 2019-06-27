@@ -1,4 +1,4 @@
-// testing heroku....
+// testing heroku...
 var express          = require("express"),
 	  app              = express(),
 	  bodyParser       = require("body-parser"),
@@ -162,7 +162,7 @@ app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
     let sampleFile = req.files.file_name;
     let picIndex = req.body.pic_index;
     let list_id = req.params.list_id;
-    let picPath = "./public/user_resources/pictures/"+list_id+"_"+picIndex+"."+sampleFile.name.split(".")[1];
+    let picPath = "./public/user_resources/pictures/landlord/"+list_id+"_"+picIndex+"_"+sampleFile.name;
 
     console.log("picPath=" + picPath);
 
@@ -199,7 +199,7 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
 
   LandlordRequest.findById(req.params.list_id, function(err, foundListing){
     try {
-      const picPath = "./public/user_resources/pictures/"+req.params.list_id+"_"+picIndex+".jpg";
+      const picPath = "./public/user_resources/pictures/landdlord/"+req.params.list_id+"_"+picIndex+".jpg";
 
       fs.unlinkSync(picPath);
       foundListing.pictures[picIndex-1].path = "";
@@ -354,6 +354,11 @@ app.get("/public/user_resources/pictures/:filename", function(req, res){
     res.sendFile(path.join(__dirname, `/public/user_resources/pictures/${fileName}`));
 });
 
+app.get("/public/user_resources/pictures/landlord/:filename", function(req, res){
+  var fileName = req.params.filename;
+  console.log("picture: received file name=" + fileName)
+    res.sendFile(path.join(__dirname, `/public/user_resources/pictures/landlord/${fileName}`));
+});
 
 app.get("/public/user_resources/pictures/profile_pictures/:filename", function(req, res){
   var fileName = req.params.filename;
