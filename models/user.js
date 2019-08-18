@@ -54,19 +54,62 @@ var UserSchema = new mongoose.Schema({
 		}
 	],
 
-	tenant_listing: {
-		id: {
+	// listing created by myself
+	tenant_listing: [ 
+		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "TenantRequest"
 		}
-	},
+	],
 
-	landlord_listing: {
-		id: {
+	landlord_listing: [ 
+		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "LandlordRequest"
 		}
-	}
+	],
+
+	// listing from my friends
+	incoming_tenant_listing: [
+		{
+			id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "TenantRequest"
+			},
+
+			friend_id: {
+					type: mongoose.Schema.Types.ObjectId,
+		     		ref: "User"
+		    },
+
+  			received_date: {
+  				month: String,
+  				date: Number,
+  				year: String
+  			},
+		}
+	],
+
+	// listing from my friends
+	incoming_landlord_listing: [
+		{
+			id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "TenantRequest"
+			},
+
+			friend_id: {
+					type: mongoose.Schema.Types.ObjectId,
+		     		ref: "User"
+		    },
+
+  			received_date: {
+  				month: String,
+  				date: Number,
+  				year: String
+  			},
+		}
+	],
 });
 
 UserSchema.plugin(passportLocalMongoose)

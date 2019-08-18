@@ -97,6 +97,8 @@ app.use(fileUpload());
 
 app.locals.profile_picture = "/public/user_resources/pictures/profile_pictures/default_profile.jpg";
 
+global.__basedir = __dirname;
+
 // ISEO-TBD: test e-mail
 /*
 // TBD: test email
@@ -162,12 +164,12 @@ app.post('/listing/landlord/:list_id/file_upload', function(req, res) {
     let sampleFile = req.files.file_name;
     let picIndex = req.body.pic_index;
     let list_id = req.params.list_id;
-    let picPath = "./public/user_resources/pictures/landlord/"+list_id+"_"+picIndex+"_"+sampleFile.name;
+    let picPath = "/public/user_resources/pictures/landlord/"+list_id+"_"+picIndex+"_"+sampleFile.name;
 
     console.log("picPath=" + picPath);
 
     // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(picPath, function(err) {
+    sampleFile.mv("."+picPath, function(err) {
       if (err)
         return res.status(500).send(err);
 
@@ -199,9 +201,9 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
 
   LandlordRequest.findById(req.params.list_id, function(err, foundListing){
     try {
-      const picPath = "./public/user_resources/pictures/landdlord/"+req.params.list_id+"_"+picIndex+".jpg";
+      const picPath = "/public/user_resources/pictures/landdlord/"+req.params.list_id+"_"+picIndex+".jpg";
 
-      fs.unlinkSync(picPath);
+      fs.unlinkSync("."+picPath);
       foundListing.pictures[picIndex-1].path = "";
       foundListing.num_of_pictures_uploaded = foundListing.num_of_pictures_uploaded - 1;
       foundListing.save();
@@ -231,12 +233,12 @@ app.post('/listing/tenant/:list_id/file_upload', function(req, res) {
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let sampleFile = req.files.file_name;
     let list_id = req.params.list_id;
-    let picPath = "./public/user_resources/pictures/tenant/"+list_id+"_"+sampleFile.name;
+    let picPath = "/public/user_resources/pictures/tenant/"+list_id+"_"+sampleFile.name;
 
     console.log("picPath=" + picPath);
 
     // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(picPath, function(err) {
+    sampleFile.mv("."+picPath, function(err) {
       if (err)
       {
         console.log("mv operation failed with error code="+err);
@@ -272,7 +274,7 @@ app.post('/listing/tenant/:list_id/file_delete', function(req, res) {
     try {
       
       console.log("File path=" + foundListing.profile_pictures[0].path );
-      fs.unlinkSync(foundListing.profile_pictures[0].path);
+      fs.unlinkSync("." + foundListing.profile_pictures[0].path);
       
       foundListing.profile_pictures[0].path = "";
       foundListing.num_of_profile_picture_uploaded = foundListing.num_of_profile_picture_uploaded - 1;
@@ -302,17 +304,21 @@ app.post('/profile/:user_id/file_upload', function(req, res) {
     }
 
 
+    console.log("ISEO: uploading profile picture...");
+
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let sampleFile = req.files.file_name;
     let user_id = req.params.user_id;
-    let picPath = "./public/user_resources/pictures/"+user_id+"_"+"profile"+"."+sampleFile.name.split(".")[1];
-
-    console.log("picPath=" + picPath);
+    // ISEO-TBD: Wow... what is it?
+    let picPath = "/public/user_resources/pictures/"+user_id+"_"+"profile"+"."+sampleFile.name.split(".")[1];
 
     // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(picPath, function(err) {
+    sampleFile.mv("."+picPath, function(err) {
       if (err)
+      {
+        console.log("ISEO: upload failure. error="+err);
         return res.status(500).send(err);
+      }
 
       console.log("ISEO: Successful File upload");
 
@@ -332,9 +338,7 @@ app.post('/profile/:user_id/file_delete', function(req, res) {
 
   User.findById(req.params.user_id, function(err, curr_user){
     try {
-      const picPath = "./public/user_resources/pictures/"+req.params.user_id+"_"+"profile"+".jpg";
-
-      fs.unlinkSync(picPath);
+      fs.unlinkSync("."+curr_user.profile_picture);
 
       curr_user.profile_picture = "";
 

@@ -43,7 +43,8 @@ router.post("/new", function(req, res){
         		return;
         	}
 
-        	foundUser.tenant_listing.id = newListing._id;
+        	foundUser.tenant_listing.push(newListing._id);
+        	
         	foundUser.save();
         });
 
@@ -253,7 +254,7 @@ router.get("/show", function(req, res){
         	return;
         }
 
-        TenantRequest.findById(foundUser.tenant_listing.id, function(err, foundListing){
+        TenantRequest.findById(foundUser.tenant_listing[0].id, function(err, foundListing){
         	if(err || foundListing == null)
         	{
         		req.flash("error", "No Active Listing Found");
@@ -262,13 +263,13 @@ router.get("/show", function(req, res){
         	}
 
 			// need to change to support array of list instead
-			res.render("listing/tenant/show_list", {listing_info: { listing: foundListing, list_id: foundUser.tenant_listing.id}});
+			res.render("listing/tenant/show_list", {listing_info: { listing: foundListing, list_id: foundUser.tenant_listing[0].id}});
         });
 	});
 });
 
 
-router.get("/:list_id/edit", function(req, res){
+router.post("/:list_id/edit", function(req, res){
 	// Get tenant listing.
     TenantRequest.findById(req.params.list_id, function(err, foundListing){
     	if(err)
@@ -279,6 +280,7 @@ router.get("/:list_id/edit", function(req, res){
 		res.render("listing/tenant/new", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
+
 
 router.delete("/:list_id", function(req, res){
 	// Clean all resources such as pictures.

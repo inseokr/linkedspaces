@@ -42,7 +42,7 @@ router.post("/new", function(req, res){
         	}
 
 
-        	foundUser.landlord_listing.id = newListing._id;
+        	foundUser.landlord_listing.push(newListing._id);
         	foundUser.save();
         });
 
@@ -357,8 +357,71 @@ router.get("/edit", function(req,res){
 	res.render("listing/landlord/new_step5");
 });
 
+
 router.get("/temp", function(req,res){
 	res.render("listing/landlord/new_step6");
+});
+
+router.post("/:list_id/edit", function(req, res){
+	// Get tenant listing.
+    LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not fkkound");
+    		return;
+    	}
+		res.render("listing/landlord/new", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
+	});
+});
+
+
+router.get("/:list_id/show", function(req, res){
+	// Clean all resources such as pictures.
+
+	// Get landlord listing.
+    LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+		var facilities = [];
+		var amenities = [];
+
+		preprocessListing(foundListing, facilities, amenities);
+		res.render("listing/landlord/show", 
+			{listing_info: { listing: foundListing, accessibleSpaces: facilities, availableAmenities: amenities}});
+	});
+});
+
+
+
+router.delete("/:list_id", function(req, res){
+	// Clean all resources such as pictures.
+
+	// Get landlord listing.
+    LandlordRequest.findById(req.params.list_id, function(err, foundListing){
+    	if(err)
+    	{
+    		console.log("Listing not found");
+    		return;
+    	}
+
+    	try {
+    		for(var picIndex=0; processedPictures<foundListing.num_of_pictures_uploaded;picIndex++){
+				if(foundListing.pictures[picIndex].path!=""){
+		    		fs.unlinkSync(foundListing.pictures[picIndex].path);
+				}	
+			}
+	    } catch(err){
+	    	console.error(err);	
+	    }
+
+		foundListing.remove();	    
+
+    	req.flash("success", "Listing Deleted Successfully");
+		res.redirect("/");
+	});
 });
 
 module.exports = router;
