@@ -389,8 +389,10 @@ router.get("/:list_id/show", function(req, res){
 		var amenities = [];
 
 		preprocessListing(foundListing, facilities, amenities);
+		console.log("ISEO: list_id = " + req.params.list_id );
+
 		res.render("listing/landlord/show", 
-			{listing_info: { listing: foundListing, accessibleSpaces: facilities, availableAmenities: amenities}});
+			{listing_info: { listing: foundListing, accessibleSpaces: facilities, availableAmenities: amenities, list_id: req.params.list_id}});
 	});
 });
 
