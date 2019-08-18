@@ -32,7 +32,7 @@
 							</div>
 						</form>
 
-						<form role="form" action="/listing/tenant/<%=tenant_listing[x].id%>" method="delete">
+						<form role="form" action="/listing/tenant/<%=tenant_listing[x].id%>?_method=DELETE" method="post">
 							<div class="action">
 								<button class="btn btn-danger">Delete</button>
 							</div>
@@ -46,7 +46,7 @@
 			<hr>
 		</div>
 
-		<div class="bottom-shadow">
+		<div class="bottom-shadow" style="margin-top: 40px">
 			<span style="text-align:center;"><h3> Looking for tenants/roommates </h3></span>
 			<hr>
 			<div class="d-flex justify-content-between flex-wrap">
@@ -68,7 +68,7 @@
 							</div>
 						</form>
 
-						<form role="form" action="/listing/landlord/<%=landlord_listing[x].id%>" method="delete">
+						<form role="form" action="/listing/landlord/<%=landlord_listing[x].id%>?_method=DELETE" method="post">
 							<div class="action">
 								<button class="btn btn-danger">Delete</button>
 							</div>

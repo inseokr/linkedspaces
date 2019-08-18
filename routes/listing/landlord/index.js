@@ -395,7 +395,6 @@ router.get("/:list_id/show", function(req, res){
 });
 
 
-
 router.delete("/:list_id", function(req, res){
 	// Clean all resources such as pictures.
 
