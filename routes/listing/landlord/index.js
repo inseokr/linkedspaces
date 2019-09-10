@@ -9,6 +9,8 @@ var path = require("path");
 node.loop = node.runLoopOnce;
 
 
+module.exports = function(app) {
+
 router.post("/new", function(req, res){
 	if(req.body.submit=="exit"){
 		res.render("listing_main");
@@ -425,4 +427,56 @@ router.delete("/:list_id", function(req, res){
 	});
 });
 
-module.exports = router;
+async function getCoverPicture(list_id)
+{
+	return new Promise(resolve => {
+		LandlordRequest.findById(list_id, function(err, foundList){
+			resolve(foundList.pictures[0].path);
+		});
+
+	});
+}
+
+
+async function buildListingInfo2forward(req) {
+
+	return new Promise(async resolve => {
+
+		var listingInfo = {id: req.params.list_id, friend_id: app.locals.curr_user._id, received_date: {month: "Mar", date: 20, year: "2019"}};
+
+		listingInfo.cover_picture = await getCoverPicture(req.params.list_id);
+
+		resolve(listingInfo);
+	});
+
+}
+
+// forward listing to direct friends
+router.put("/:list_id/forward", function(req, res){
+
+	app.locals.curr_user.direct_friends.forEach(function(friend){
+
+		// Need to find the friend object and then update it.
+		User.findById(friend.id, function(err, foundUser){
+			if(err)
+			{
+				console.log("User not found with given id");
+				return;
+			}
+
+			buildListingInfo2forward(req).then((listingInfo) => {
+				foundUser.incoming_landlord_listing.push(listingInfo);				
+				foundUser.save();
+				req.flash("success", "Listing Forwarded Successfully");
+				res.redirect("/");
+				
+			});
+		});
+	});
+
+    
+});
+
+return router;
+
+}

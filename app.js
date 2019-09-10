@@ -14,8 +14,8 @@ var express          = require("express"),
 var indexRoutes      = require("./routes/index");
 var listingRoutes    = require("./routes/listing/index");
 var mynetworkRoutes  = require("./routes/mynetwork/index");
-var landlordRoutes   = require("./routes/listing/landlord/index");
-var tenantRoutes     = require("./routes/listing/tenant/index");
+var landlordRoutes   = require("./routes/listing/landlord/index")(app);
+var tenantRoutes     = require("./routes/listing/tenant/index")(app);
 var profileRoutes    = require("./routes/profile/index");
 var fs               = require("fs");
 var path             = require("path");
@@ -72,7 +72,8 @@ passport.use(new FacebookStrategy({
     // Login completed... but how I could redirect the page??
     User.findOne({username:'inseo'}, function(err, user) {
       if (err) { return done(err); }
-
+      console.log("Facebook login: saving current user");
+      app.locals.curr_user = user;
       done(null, user);
     });
   }

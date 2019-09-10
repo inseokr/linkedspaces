@@ -68,6 +68,20 @@ router.post("/login", passport.authenticate("local",
         successRedirect: "/homepage",
         failureRedirect: "/"
     }), function(req, res){
+    // save current user
+
+    User.findById(req.user._id, function(err, curr_user){
+      if(err){
+           console.log("No user found");
+      }
+      else
+      {
+          console.log("ISEO: saving current user");
+
+          app.locals.current_user = curr_user;
+      }
+    });
+
 });
 
 router.get("/homepage", function(req,res){

@@ -77,10 +77,14 @@ var UserSchema = new mongoose.Schema({
 				ref: "TenantRequest"
 			},
 
+			profile_picture: String,
+
 			friend_id: {
 					type: mongoose.Schema.Types.ObjectId,
 		     		ref: "User"
 		    },
+
+		    friend_name: String,
 
   			received_date: {
   				month: String,
@@ -98,10 +102,14 @@ var UserSchema = new mongoose.Schema({
 				ref: "TenantRequest"
 			},
 
+			cover_picture: String,
+
 			friend_id: {
 					type: mongoose.Schema.Types.ObjectId,
 		     		ref: "User"
 		    },
+
+		    friend_name: String,
 
   			received_date: {
   				month: String,
