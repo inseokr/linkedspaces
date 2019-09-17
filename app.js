@@ -209,7 +209,7 @@ app.post('/listing/landlord/:list_id/file_delete', function(req, res) {
       console.error(err);
     }
   });
-
+  console.log("please work");
 });
 
 
