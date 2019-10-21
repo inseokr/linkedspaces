@@ -12,7 +12,7 @@ const router = express.Router();
 
 // this is our MongoDB database
 const dbRoute =
-    'mongodb://justin:justin123@ds249583.mlab.com:49583/react_poc';
+    'mongodb://localhost/Linkedspaces';
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true });
