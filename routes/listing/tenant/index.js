@@ -9,6 +9,8 @@ var fs            = require("fs");
 
 node.loop = node.runLoopOnce;
 
+module.exports = function(app) {
+
 router.post("/new", function(req, res){
 	if(req.body.submit=="exit")
 	{
@@ -43,7 +45,8 @@ router.post("/new", function(req, res){
         		return;
         	}
 
-        	foundUser.tenant_listing.id = newListing._id;
+        	foundUser.tenant_listing.push(newListing._id);
+        	
         	foundUser.save();
         });
 
@@ -253,7 +256,7 @@ router.get("/show", function(req, res){
         	return;
         }
 
-        TenantRequest.findById(foundUser.tenant_listing.id, function(err, foundListing){
+        TenantRequest.findById(foundUser.tenant_listing[0].id, function(err, foundListing){
         	if(err || foundListing == null)
         	{
         		req.flash("error", "No Active Listing Found");
@@ -262,13 +265,13 @@ router.get("/show", function(req, res){
         	}
 
 			// need to change to support array of list instead
-			res.render("listing/tenant/show_list", {listing_info: { listing: foundListing, list_id: foundUser.tenant_listing.id}});
+			res.render("listing/tenant/show_list", {listing_info: { listing: foundListing, list_id: foundUser.tenant_listing[0].id}});
         });
 	});
 });
 
 
-router.get("/:list_id/edit", function(req, res){
+router.post("/:list_id/edit", function(req, res){
 	// Get tenant listing.
     TenantRequest.findById(req.params.list_id, function(err, foundListing){
     	if(err)
@@ -279,6 +282,7 @@ router.get("/:list_id/edit", function(req, res){
 		res.render("listing/tenant/new", {listing_info: { listing: foundListing, listing_id: req.params.list_id}});
 	});
 });
+
 
 router.delete("/:list_id", function(req, res){
 	// Clean all resources such as pictures.
@@ -378,4 +382,34 @@ function preprocessingListing(listing, preferences)
 	}
 }
 
-module.exports = router;
+// forward listing to direct friends
+router.put("/:list_id/forward", function(req, res){
+
+	var listing_info = { id: req.params.list_id, friend_id: app.locals.curr_user._id, received_date: {month: "Mar", date: 20, year: "2019"} };
+
+	app.locals.curr_user.direct_friends.forEach(function(friend){
+
+		// Need to find the friend object and then update it.
+		User.findById(friend.id, function(err, foundUser){
+			if(err)
+			{
+				console.log("User not found with given id");
+				return;
+			}
+
+			foundUser.incoming_tenant_listing.push(listing_info);
+			foundUser.save();
+			req.flash("success", "Listing Forwarded Successfully");
+			res.redirect("/");
+
+		});
+	});
+
+    
+});
+
+
+return router;
+
+}
+

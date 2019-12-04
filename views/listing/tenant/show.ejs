@@ -219,7 +219,9 @@
         <!-- The button used to copy the text -->
         <div class="d-flex jjustify-content-start">
           <button class="btn btn-primary" onclick="copy_posting_link('<%=`${listing_info.list_id}`%>')">Copy link of this posting</button>
-          <button class="btn btn-info" style="margin-left:70px !important;">Send listing to friends</button>
+          <form role="form" action="/listing/tenant/<%=listing_info.list_id%>/forward?_method=PUT" method="post">
+            <button class="btn btn-info" style="margin-left:70px !important;">Send listing to friends</button>
+          </form>
           <button class="btn btn-danger" style="margin-left:70px !important;">Check status</button>
         <div>
         </div>
