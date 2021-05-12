@@ -25,7 +25,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.4.11",
     "multer": "^1.4.1",
-    "nodemailer": "^6.1.1",
+    "nodemailer": "^6.4.16",
     "parse-error": "^0.2.0",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
