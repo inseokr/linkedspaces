@@ -10,7 +10,7 @@
   "author": "In Seo",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.0.1",
+    "async": "^2.6.4",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "crypto": "^1.0.1",
